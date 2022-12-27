@@ -1,10 +1,23 @@
-import React from 'react';
+import { Route, Routes } from "react-router-dom";
+import "./app.css";
+import React from "react";
+
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import FindIDPW from "./pages/FindIDPW";
+import LetterForm from "./pages/LetterForm";
+
 
 function App() {
+
   return (
     <div className="App">
-{/* 페이지별 라우팅 */}
-{/* 화면에는 보여지지 않는 JS파일임(라우터 기능 우선) */}
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/findIdPw" element={<FindIDPW />} />
+        <Route path="/letterForm" element={<LetterForm />} />
+      </Routes>
     </div>
   );
 }
