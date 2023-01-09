@@ -51,7 +51,7 @@ const FlexLeft = styled.div`
 	}
 `;
 
-const Login = () => {
+const Login = ({ auth }) => {
 	const navigate = useNavigate();
 	const emailRef = useRef();
 	const pwRef = useRef();
