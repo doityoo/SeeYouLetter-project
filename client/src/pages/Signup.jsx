@@ -25,7 +25,7 @@ const Signup = () => {
 	return (
 		<>
 			<GlobalStyle />
-			<MainContents>
+			<Wrapper>
 				<Header />
 				<Form>
 					<Input
@@ -60,14 +60,14 @@ const Signup = () => {
 						</div>
 					</FlexBetween>
 				</Form>
-			</MainContents>
+			</Wrapper>
 		</>
 	);
 };
 
 export default Signup;
 
-const MainContents = styled.div`
+const Wrapper = styled.div`
 	margin: 0 20px;
 `;
 const Form = styled.form`

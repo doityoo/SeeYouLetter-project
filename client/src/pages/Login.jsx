@@ -85,7 +85,7 @@ const Login = () => {
 	return (
 		<>
 			<GlobalStyle />
-			<MainContents>
+			<Wrapper>
 				<Header />
 				<Form onSubmit={loginSubmitHandler}>
 					{/* 로그인 ID / PW 입력창 */}
@@ -124,14 +124,14 @@ const Login = () => {
 					</FlexBetween>
 				</Form>
 				{/* {isModalOpen && <Modal num={0} />} */}
-			</MainContents>
+			</Wrapper>
 		</>
 	);
 };
 
 export default Login;
 
-const MainContents = styled.div`
+const Wrapper = styled.div`
 	margin: 0 20px;
 `;
 const Form = styled.form`
