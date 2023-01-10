@@ -4,60 +4,18 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 import GlobalStyle from '../UI/GlobalStyle';
-import logo from './../assets/seeYouLetter-logo.png';
 import googleLogo from './../assets/google-logo.png';
 import kakaoLogo from './../assets/kakao-logo.png';
-import bar from './../assets/hamburgerBar.png';
+import Header from '../components/Header';
 
-const MainContents = styled.div`
-	margin: 0 20px;
-`;
-const Form = styled.form`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	button {
-		font-size: 1.3rem;
-	}
-`;
-const Input = styled.input`
-	margin-bottom: 15px;
-	width: 100%;
-	height: 50px;
-`;
-const Icon = styled.img`
-	width: 50px;
-	height: auto;
-	object-fit: cover;
-`;
-const MainLogo = styled(Icon)`
-	width: auto;
-	height: 20px;
-	object-fit: cover;
-`;
-const FlexBetween = styled.div`
-	display: flex;
-	justify-content: space-between;
-	margin: 43px 0 23px 0;
-`;
-const FlexLeft = styled.div`
-	display: flex;
-	align-items: start;
-	width: 100%;
-	margin-bottom: 60px;
-	input {
-		margin-right: 5px;
-	}
-`;
+// import auth from '../services/auth'
 
-const Login = ({ auth }) => {
+const Login = () => {
 	const navigate = useNavigate();
 	const emailRef = useRef();
 	const pwRef = useRef();
 	const [validationMSG, setValidationMSG] = useState('');
-
-	useEffect(() => {}, []);
+	const [error, setError] = useState('');
 
 	// ID,PW 유효성 검사(ref)
 	const checkValidation = () => {
@@ -118,14 +76,17 @@ const Login = ({ auth }) => {
 		// }
 	};
 
+	const onLogin = () => {
+		// auth
+		// 	.login(e.target.textContent)
+		//   .then(console.log)
+	};
+
 	return (
 		<>
 			<GlobalStyle />
 			<MainContents>
-				<FlexBetween>
-					<MainLogo src={logo} alt='logo' />
-					<MainLogo src={bar} alt='hamburgerIcon' />
-				</FlexBetween>
+				<Header />
 				<Form onSubmit={loginSubmitHandler}>
 					{/* 로그인 ID / PW 입력창 */}
 					<Input ref={emailRef} placeholder='이메일' />
@@ -136,28 +97,28 @@ const Login = ({ auth }) => {
 						placeholder='비밀번호'
 					/>
 					<FlexLeft>
-						<input type='checkbox' checkbox />
+						<input type='checkbox' />
 						<label>아이디 저장하기</label>
 					</FlexLeft>
+					<StyledText2>
+						{error ? '아이디와 비밀번호가 맞지 않습니다' : ''}
+					</StyledText2>
 					<button>Log in</button>
-					<FlexBetween>
-						<Link to='/signup'>
-							<p>회원가입</p>
-						</Link>
-						<Link to='/findIdPw'>
-							<p>비밀번호 찾기</p>
-						</Link>
+					<FlexBetween width>
+						<StyledLink to='/signup'>회원가입</StyledLink>
+						<StyledLink to='/findIdPw'>비밀번호 찾기</StyledLink>
 					</FlexBetween>
 					{/* 간편로그인 링크&로고 */}
+					<StyledText1>SNS 계정으로 간편 로그인 / 회원가입</StyledText1>
 					<FlexBetween>
 						<div>
 							{/* <a href={`${baseURL}/login/oauth2/authorize/kakao?redirect_uri=${clientURL}/oauth2/redirect`}> */}
-							<Icon src={kakaoLogo} alt='kakaoLogin' />
+							<Icon src={kakaoLogo} alt='kakaoLogin' onClick={onLogin} />
 							{/* </a> */}
 						</div>
 						<div>
 							{/* <a href={`${baseURL}/login/oauth2/authorize/google?redirect_uri=${clientURL}/oauth2/redirect`}> */}
-							<Icon src={googleLogo} alt='googleLogin' />
+							<Icon src={googleLogo} alt='googleLogin' onClick={onLogin} />
 							{/* </a> */}
 						</div>
 					</FlexBetween>
@@ -169,3 +130,58 @@ const Login = ({ auth }) => {
 };
 
 export default Login;
+
+const MainContents = styled.div`
+	margin: 0 20px;
+`;
+const Form = styled.form`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	button {
+		font-size: 1.3rem;
+	}
+`;
+const Input = styled.input`
+	margin-bottom: 15px;
+	width: 100%;
+	height: 50px;
+`;
+const Icon = styled.img`
+	width: 50px;
+	height: auto;
+	object-fit: cover;
+	cursor: pointer;
+`;
+const FlexBetween = styled.div`
+	display: flex;
+	justify-content: space-between;
+	margin: 20px 0 23px 0;
+	width: ${(props) => (props.width ? '80%' : '35%')};
+`;
+const FlexLeft = styled.div`
+	display: flex;
+	align-items: start;
+	width: 100%;
+	margin-bottom: 20px;
+	margin-right: 5px;
+`;
+const StyledLink = styled(Link)`
+	text-decoration: none;
+	&:hover,
+	&:visited,
+	&:focus,
+	&:active {
+		text-decoration: underline;
+		color: black;
+	}
+`;
+const StyledText1 = styled.p`
+	color: #686868;
+`;
+const StyledText2 = styled.p`
+	color: red;
+	height: 15px;
+	margin-bottom: 15px;
+`;

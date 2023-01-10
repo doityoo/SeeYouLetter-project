@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -26,6 +26,6 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 0.5rem;
     background-color: white;
   }
-`
+`;
 
 export default GlobalStyle;
