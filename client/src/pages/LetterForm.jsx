@@ -33,9 +33,9 @@ const LetterForm = () => {
 			<p>📬 발송일</p>
 			<ButtonWrap>
 				<PeriodButton
-          onClick={() => {
-            setMenu([true, false, false]);
-          }}
+					onClick={() => {
+						setMenu([true, false, false]);
+					}}
 				>
 					1년 뒤
 				</PeriodButton>
@@ -54,6 +54,7 @@ const LetterForm = () => {
 					3개월 뒤
 				</PeriodButton>
 			</ButtonWrap>
+			<SendButton>보내기</SendButton>
 		</Wrapper>
 	);
 };
@@ -95,4 +96,9 @@ const PeriodButton = styled.button`
 `;
 const ButtonWrap = styled.div`
 	margin-top: 10px;
+`;
+const SendButton = styled.button`
+	margin: 20px 0;
+	height: 60px;
+	font-size: 1.2rem;
 `;
