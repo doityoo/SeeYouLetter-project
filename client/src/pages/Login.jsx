@@ -9,11 +9,16 @@ import kakaoLogo from './../assets/kakao-logo.png';
 import Header from '../components/Header';
 
 // import auth from '../services/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { authService } from './../services/firebase-config';
 
 const Login = () => {
 	const navigate = useNavigate();
 	const emailRef = useRef();
 	const pwRef = useRef();
+	const [loginEmail, setLoginEmail] = useState('');
+	const [loginPassword, setLoginPassword] = useState('');
+	const [user, setUser] = useState({});
 	const [validationMSG, setValidationMSG] = useState('');
 	const [error, setError] = useState('');
 
@@ -40,14 +45,25 @@ const Login = () => {
 		return true;
 	};
 
-	const loginSubmitHandler = async (e) => {
+	const login = async (e) => {
 		const email = emailRef.current.value;
-		// const password = pwRef.current.value;
 		e.preventDefault();
 		checkValidation(email);
 		if (checkValidation(email) === false) {
 			return;
 		}
+		try {
+			const user = await signInWithEmailAndPassword(
+				authService,
+				loginEmail,
+				loginPassword
+			);
+			console.log(user);
+		} catch (err) {
+			console.log(error.message);
+		}
+	};
+
 		// 토큰
 		// const token = await login(email, password).catch((err) => {
 		//   console.log(err.response.data.message);
@@ -74,27 +90,29 @@ const Login = () => {
 		//     navigate("/letterForm");
 		//   }, 1500);
 		// }
-	};
-
-	const onLogin = () => {
-		// auth
-		// 	.login(e.target.textContent)
-		//   .then(console.log)
-	};
 
 	return (
 		<>
 			<GlobalStyle />
 			<Wrapper>
 				<Header />
-				<Form onSubmit={loginSubmitHandler}>
+				<Form onSubmit={login}>
 					{/* 로그인 ID / PW 입력창 */}
-					<Input ref={emailRef} placeholder='이메일' />
+					<Input
+						ref={emailRef}
+						placeholder='이메일'
+						onChange={(e) => {
+							setLoginEmail(e.target.value);
+						}}
+					/>
 					<Input
 						maxLength={16}
 						type='password'
 						ref={pwRef}
 						placeholder='비밀번호'
+						onChange={(e) => {
+							setLoginPassword(e.target.value);
+						}}
 					/>
 					<FlexLeft>
 						<input type='checkbox' />
@@ -103,7 +121,7 @@ const Login = () => {
 					<StyledText2>
 						{error ? '아이디와 비밀번호가 맞지 않습니다' : ''}
 					</StyledText2>
-					<button>Log in</button>
+					<button type='submit'>Log in</button>
 					<FlexBetween width>
 						<StyledLink to='/signup'>회원가입</StyledLink>
 						<StyledLink to='/findIdPw'>비밀번호 찾기</StyledLink>
@@ -113,12 +131,12 @@ const Login = () => {
 					<FlexBetween>
 						<div>
 							{/* <a href={`${baseURL}/login/oauth2/authorize/kakao?redirect_uri=${clientURL}/oauth2/redirect`}> */}
-							<Icon src={kakaoLogo} alt='kakaoLogin' onClick={onLogin} />
+							<Icon src={kakaoLogo} alt='kakaoLogin' />
 							{/* </a> */}
 						</div>
 						<div>
 							{/* <a href={`${baseURL}/login/oauth2/authorize/google?redirect_uri=${clientURL}/oauth2/redirect`}> */}
-							<Icon src={googleLogo} alt='googleLogin' onClick={onLogin} />
+							<Icon src={googleLogo} alt='googleLogin' />
 							{/* </a> */}
 						</div>
 					</FlexBetween>

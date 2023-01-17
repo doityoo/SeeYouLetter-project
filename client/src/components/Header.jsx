@@ -22,11 +22,11 @@ export default Header;
 const Wrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
-	margin: 43px 0 23px 0;
+	margin: 23px 0 23px 0;
 `;
 const Icon = styled.img`
 	width: auto;
-	height: 20px;
+	height: 15px;
 	object-fit: cover;
 	cursor: pointer;
 `;

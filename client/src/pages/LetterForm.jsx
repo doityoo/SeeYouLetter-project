@@ -25,7 +25,7 @@ const LetterForm = () => {
 			</StyledText1>
 			<TextEditor />
 			<p>✉️ 수신인</p>
-			<EmailInput type='text' placeholder='이메일을 입력하세요' />
+			<EmailInput type='email' placeholder='이메일을 입력하세요' />
 			<ToMeCheckBox>
 				<Checkbox type='checkbox' />
 				<label>나에게 보내기</label>
