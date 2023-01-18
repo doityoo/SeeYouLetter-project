@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
 import GlobalStyle from '../UI/GlobalStyle';
@@ -11,8 +12,10 @@ import Header from '../components/Header';
 // import auth from '../services/auth'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { authService } from './../services/firebase-config';
+import { is } from 'immer/dist/internal';
 
 const Login = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const emailRef = useRef();
 	const pwRef = useRef();
@@ -58,38 +61,43 @@ const Login = () => {
 				loginEmail,
 				loginPassword
 			);
-			console.log(user);
+			const token = user.user.accessToken;
+			localStorage.setItem('key', token);
+			const isTokened = localStorage.getItem('key')
+			dispatch(isTokened)
+			navigate('/letterForm');
+			window.location.reload()
 		} catch (err) {
 			console.log(error.message);
 		}
 	};
 
-		// 토큰
-		// const token = await login(email, password).catch((err) => {
-		//   console.log(err.response.data.message);
-		//   if (err.response.data.message === "MEMBER NOT FOUND") {
-		//     setValidationMSG("이메일이 존재하지 않습니다.");
-		//   }
-		//   if (err.response.data.message === "LOGIN INFO IS INCORRECT") {
-		//     setValidationMSG("비밀번호가 일치하지 않습니다.");
-		//   }
-		//   if (err.response.data.message === "EMAIL VALIDATION IS NEED") {
-		//     setValidationMSG("인증이 필요합니다 이메일을 확인해주세요.");
-		//   }
-		// });
-		// if (token) {
-		//   setValidationMSG("");
-		//   console.log(token);
-		//   localStorage.setItem("token", token);
-		//   setIsModalOpen(true);
-		//   getProfile
-		//   const userData = await getProfile();
-		//   dispatch(userAction.setUser(userData));
-		//   setTimeout(() => {
-		//     dispatch(authActions.login());
-		//     navigate("/letterForm");
-		//   }, 1500);
-		// }
+	// 토큰
+	// const token = await login(email, password).catch((err) => {
+	//   console.log(err.response.data.message);
+	//   if (err.response.data.message === "MEMBER NOT FOUND") {
+	//     setValidationMSG("이메일이 존재하지 않습니다.");
+	//   }
+	//   if (err.response.data.message === "LOGIN INFO IS INCORRECT") {
+	//     setValidationMSG("비밀번호가 일치하지 않습니다.");
+	//   }
+	//   if (err.response.data.message === "EMAIL VALIDATION IS NEED") {
+	//     setValidationMSG("인증이 필요합니다 이메일을 확인해주세요.");
+	//   }
+	// });
+	// if (token) {
+	//   setValidationMSG("");
+	//   console.log(token);
+	//   localStorage.setItem("token", token);
+	//   setIsModalOpen(true);
+	//   getProfile
+	//   const userData = await getProfile();
+	//   dispatch(userAction.setUser(userData));
+	//   setTimeout(() => {
+	//     dispatch(authActions.login());
+	//     navigate("/letterForm");
+	//   }, 1500);
+	// }
 
 	return (
 		<>
