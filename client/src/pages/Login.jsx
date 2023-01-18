@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { authActions } from '../reducers/authSlice';
 
 import styled from 'styled-components';
 import GlobalStyle from '../UI/GlobalStyle';
@@ -12,7 +13,6 @@ import Header from '../components/Header';
 // import auth from '../services/auth'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { authService } from './../services/firebase-config';
-import { is } from 'immer/dist/internal';
 
 const Login = () => {
 	const dispatch = useDispatch();
@@ -63,10 +63,11 @@ const Login = () => {
 			);
 			const token = user.user.accessToken;
 			localStorage.setItem('key', token);
-			const isTokened = localStorage.getItem('key')
-			dispatch(isTokened)
-			navigate('/letterForm');
-			window.location.reload()
+			const isTokened = localStorage.getItem('key');
+			if (isTokened) {
+				dispatch(authActions.login());
+				navigate('/letterForm');
+			}
 		} catch (err) {
 			console.log(error.message);
 		}

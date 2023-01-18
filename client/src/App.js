@@ -8,8 +8,9 @@ import LetterForm from "./pages/LetterForm";
 
 
 function App() {
-  const isLogined = useSelector(state => state.auth.isAuthenticated)
-  const isLogin = localStorage.getItem('key')
+  const isLogin = useSelector((state) => state.auth.isAuthenticated)
+  console.log(isLogin)
+  // const isLogin = localStorage.getItem('key')
 
   return (
     <div className="App">
