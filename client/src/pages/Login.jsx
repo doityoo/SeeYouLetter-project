@@ -149,7 +149,7 @@ const Icon = styled.img`
 `;
 const FlexBetween = styled.div`
 	display: flex;
-	justify-content: ${props => (props.width ? "center" : "space-between")};
+	justify-content: ${(props) => (props.width ? 'center' : 'space-between')};
 	margin: 20px 0 23px 0;
 	width: ${(props) => (props.width ? '80%' : '35%')};
 `;
