@@ -21,7 +21,6 @@ const Login = () => {
 	const pwRef = useRef();
 	const [loginEmail, setLoginEmail] = useState('');
 	const [loginPassword, setLoginPassword] = useState('');
-	const [user, setUser] = useState({});
 	const [validationMSG, setValidationMSG] = useState('');
 	const [error, setError] = useState('');
 
@@ -32,16 +31,16 @@ const Login = () => {
 		let regEmail =
 			/^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 		if (email.length === 0) {
-			setValidationMSG('이메일을 입력해주세요');
+			setError('이메일을 입력해주세요');
 			return false;
 		}
 		//regExp.test() 정규표현식이 맞는지 확인하고 boolean타입으로 판별
 		if (regEmail.test(email) === false) {
-			setValidationMSG('올바른 이메일 주소를 입력해주세요');
+			setError('올바른 이메일 주소를 입력해주세요');
 			return false;
 		}
 		if (password.length === 0) {
-			setValidationMSG('비밀번호를 입력해주세요');
+			setError('비밀번호를 입력해주세요');
 			return false;
 		}
 		// 위 if문에 해당이 안되면 true return해라
@@ -50,9 +49,10 @@ const Login = () => {
 
 	const login = async (e) => {
 		const email = emailRef.current.value;
+		const password = pwRef.current.value;
 		e.preventDefault();
-		checkValidation(email);
-		if (checkValidation(email) === false) {
+		checkValidation(email, password);
+		if (checkValidation(email, password) === false) {
 			return;
 		}
 		try {
@@ -69,36 +69,9 @@ const Login = () => {
 				navigate('/letterForm');
 			}
 		} catch (err) {
-			console.log(error.message);
+			console.log(err);
 		}
 	};
-
-	// 토큰
-	// const token = await login(email, password).catch((err) => {
-	//   console.log(err.response.data.message);
-	//   if (err.response.data.message === "MEMBER NOT FOUND") {
-	//     setValidationMSG("이메일이 존재하지 않습니다.");
-	//   }
-	//   if (err.response.data.message === "LOGIN INFO IS INCORRECT") {
-	//     setValidationMSG("비밀번호가 일치하지 않습니다.");
-	//   }
-	//   if (err.response.data.message === "EMAIL VALIDATION IS NEED") {
-	//     setValidationMSG("인증이 필요합니다 이메일을 확인해주세요.");
-	//   }
-	// });
-	// if (token) {
-	//   setValidationMSG("");
-	//   console.log(token);
-	//   localStorage.setItem("token", token);
-	//   setIsModalOpen(true);
-	//   getProfile
-	//   const userData = await getProfile();
-	//   dispatch(userAction.setUser(userData));
-	//   setTimeout(() => {
-	//     dispatch(authActions.login());
-	//     navigate("/letterForm");
-	//   }, 1500);
-	// }
 
 	return (
 		<>
@@ -123,17 +96,10 @@ const Login = () => {
 							setLoginPassword(e.target.value);
 						}}
 					/>
-					<FlexLeft>
-						<input type='checkbox' />
-						<label>아이디 저장하기</label>
-					</FlexLeft>
-					<StyledText2>
-						{error ? '아이디와 비밀번호가 맞지 않습니다' : ''}
-					</StyledText2>
+					<StyledText2>{error ? error : ''}</StyledText2>
 					<button type='submit'>Log in</button>
 					<FlexBetween width>
 						<StyledLink to='/signup'>회원가입</StyledLink>
-						<StyledLink to='/findIdPw'>비밀번호 찾기</StyledLink>
 					</FlexBetween>
 					{/* 간편로그인 링크&로고 */}
 					<StyledText1>SNS 계정으로 간편 로그인 / 회원가입</StyledText1>
@@ -183,16 +149,9 @@ const Icon = styled.img`
 `;
 const FlexBetween = styled.div`
 	display: flex;
-	justify-content: space-between;
+	justify-content: ${props => (props.width ? "center" : "space-between")};
 	margin: 20px 0 23px 0;
 	width: ${(props) => (props.width ? '80%' : '35%')};
-`;
-const FlexLeft = styled.div`
-	display: flex;
-	align-items: start;
-	width: 100%;
-	margin-bottom: 20px;
-	margin-right: 5px;
 `;
 const StyledLink = styled(Link)`
 	text-decoration: none;
