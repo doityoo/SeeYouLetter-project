@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import GlobalStyle from '../UI/GlobalStyle';
 import Header from '../components/Header';
 import TextEditor from '../components/TextEditor';
 import { useState } from 'react';
+import { database } from '../services/firebase-config';
+import { addDoc, collection } from 'firebase/firestore';
+// import * as admin from 'firebase-admin';
+
+// import { Firestore } from 'firebase/firestore';
+
 // 날짜 출력 라이브러리(Dayjs)
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -13,6 +19,52 @@ dayjs.locale('ko');
 
 const LetterForm = () => {
 	const [menu, setMenu] = useState([true, false, false]);
+
+	// admin.initializeApp();
+
+	useEffect(() => {
+		setTimeout(() => {
+			const colAdd = collection(database, 'send_email');
+			try {
+				addDoc(colAdd, {
+					from: 'honesty407@gmail.com',
+					message: {
+						html: '<p>Your email address</p>',
+					},
+					templete: {
+						data: {
+							sendDate: '',
+							title: 'Your email address',
+							username: 'willy',
+						},
+						name: 'U367pb61q6zXUwJMcOHU',
+					},
+					to: 'yitsky@naver.com',
+				});
+			} catch {
+				console.log('Not send email!');
+			}
+			// database
+			// 	.collection('send_email')
+			// 	.add({
+			// 		from: 'honesty407@gmail.com',
+			// 		message: {
+			// 			html: '<p>Your email address</p>',
+			// 			title: 'Your email address',
+			// 		},
+			// 		templete: {
+			// 			data: {
+			// 				sendDate: '',
+			// 				title: 'Your email address',
+			// 				username: 'willy',
+			// 			},
+			// 			name: 'seeYouLetters',
+			// 		},
+			// 		to: 'yitsky@naver.com',
+			// 	})
+			// 	.then(() => console.log('Sent email'));
+		}, 3000);
+	}, []);
 
 	return (
 		<Wrapper>

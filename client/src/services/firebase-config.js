@@ -19,5 +19,5 @@ export  default app;
 export const authService = getAuth(app);
 // 구글 소셜로그인
 // export const googleProvider = new initializeApp.auth.GoogleAuthProvider();
-export const dbService = getFirestore(app);
+export const database = getFirestore(app);
 // db 접근
