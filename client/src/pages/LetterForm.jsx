@@ -1,60 +1,78 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import GlobalStyle from '../UI/GlobalStyle';
-import Header from '../components/Header';
-import TextEditor from '../components/TextEditor';
 import { useState } from 'react';
+import styled from 'styled-components';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Header from '../components/Header';
+import GlobalStyle from '../UI/GlobalStyle';
+import TextEditor from '../components/TextEditor';
+
 import { database } from '../services/firebase-config';
 import { addDoc, collection } from 'firebase/firestore';
 
-
 // 날짜 출력 라이브러리(Dayjs)
+import 'dayjs/locale/ko'; // 한국어 가져오기
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/ko'; // 한국어 가져오기
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
 const LetterForm = () => {
+	const textBody = useSelector((state) => state.textBody.context);
 	const [menu, setMenu] = useState([true, false, false]);
+	const [email, setEmail] = useState('');
 
+	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 
-	useEffect(() => {
-		setTimeout(() => {
-			const colAdd = collection(database, 'send_email');
-			try {
-				addDoc(colAdd, {
-					from: 'honesty407@gmail.com',
-					message: {
-						html: '<p>Your email address</p>',
-					},
-					templete: {
-						data: {
-							sendDate: '2023년 01월 26일',
-							username: 'willy',
-						},
-						name: 'sendEmail',
-					},
-					to: 'yitsky@naver.com',
-				});
-			} catch {
-				console.log('Not send email!');
-			}
-		}, 3000);
-	}, []);
+	const submitHandler = () => {
+		console.log("submit");
+	};
+
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		const colAdd = collection(database, 'send_email');
+	// 		try {
+	// 			addDoc(colAdd, {
+	// 				from: 'honesty407@gmail.com',
+	// 				message: {
+	// 				},
+	// 				template: {
+	// 					data: {
+	// 						sendDate: '${currentDate}',
+	// 						userName: 'willy',
+	// 						header: `
+	// 							이 편지는 See you letters에서 ${value}이 ${hello}에 보낸 편지입니다.
+	// 						`,
+	// 						body: `${textBody}`
+	// 					},
+	// 					name: 'sendEmail',
+	// 				},
+	// 				to: 'yitsky@naver.com',
+	// 			});
+	// 			console.log("Send email!")
+	// 		} catch {
+	// 			console.log('Not send email!');
+	// 		}
+	// 	}, 3000);
+	// }, []);
 
 	return (
 		<Wrapper>
 			<GlobalStyle />
 			<Header />
 			<StyledText1>
-				<StyledDate>{dayjs(new Date()).format('YYYY년 MM월 DD일')}</StyledDate>
+				<StyledDate>{currentDate}</StyledDate>
 				<p>나에게, 또는 누군가에게</p>
 				<p>편지를 남겨보세요</p>
 			</StyledText1>
 			<TextEditor />
 			<p>✉️ 수신인</p>
-			<EmailInput type='email' placeholder='이메일을 입력하세요' />
+			<EmailInput
+				type='email'
+				placeholder='이메일을 입력하세요'
+				onChange={(e) => {
+					setEmail(e.target.value);
+				}}
+			/>
 			<ToMeCheckBox>
 				<Checkbox type='checkbox' />
 				<label>나에게 보내기</label>
@@ -83,7 +101,7 @@ const LetterForm = () => {
 					3개월 뒤
 				</PeriodButton>
 			</ButtonWrap>
-			<SendButton>보내기</SendButton>
+			<SendButton onClick={submitHandler}>보내기</SendButton>
 		</Wrapper>
 	);
 };
