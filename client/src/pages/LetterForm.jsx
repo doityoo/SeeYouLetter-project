@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '../components/Header';
 import GlobalStyle from '../UI/GlobalStyle';
@@ -20,40 +19,53 @@ const LetterForm = () => {
 	const textBody = useSelector((state) => state.textBody.context);
 	const [menu, setMenu] = useState([true, false, false]);
 	const [email, setEmail] = useState('');
+	const [errMSG, setErrMSG] = useState('');
+	const [name, setName] = useState('');
 
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 
-	const submitHandler = () => {
-		console.log("submit");
-	};
+	function strCheck(str, type) {
+		const REGEX = {
+			EMAIL: /\S+@\S+\.\S+/,
+		};
+		if (type === 'email') {
+			return REGEX.EMAIL.test(str);
+		} else {
+			return false;
+		}
+	}
 
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		const colAdd = collection(database, 'send_email');
-	// 		try {
-	// 			addDoc(colAdd, {
-	// 				from: 'honesty407@gmail.com',
-	// 				message: {
-	// 				},
-	// 				template: {
-	// 					data: {
-	// 						sendDate: '${currentDate}',
-	// 						userName: 'willy',
-	// 						header: `
-	// 							이 편지는 See you letters에서 ${value}이 ${hello}에 보낸 편지입니다.
-	// 						`,
-	// 						body: `${textBody}`
-	// 					},
-	// 					name: 'sendEmail',
-	// 				},
-	// 				to: 'yitsky@naver.com',
-	// 			});
-	// 			console.log("Send email!")
-	// 		} catch {
-	// 			console.log('Not send email!');
-	// 		}
-	// 	}, 3000);
-	// }, []);
+	const submitHandler = async () => {
+		console.log('Submit Clicked!');
+		if (strCheck(email, 'email') === false) {
+			setErrMSG('이메일 형식이 올바르지 않습니다.');
+			return false;
+		}
+		setTimeout(() => {
+			const colAdd = collection(database, 'send_email');
+			try {
+				addDoc(colAdd, {
+					from: 'honesty407@gmail.com',
+					message: {},
+					template: {
+						data: {
+							sendDate: `${currentDate}`,
+							userName: `${name}`,
+							header: `
+									이 편지는 See you letter에서 ${name}님이 ${currentDate}에 보낸 편지입니다.
+								`,
+							body: `${textBody}`,
+						},
+						name: 'sendEmail',
+					},
+					to: `${email}`,
+				});
+				console.log('Send email!');
+			} catch {
+				console.log('Not send email!');
+			}
+		}, 3000);
+	};
 
 	return (
 		<Wrapper>
@@ -65,14 +77,23 @@ const LetterForm = () => {
 				<p>편지를 남겨보세요</p>
 			</StyledText1>
 			<TextEditor />
+			<p>✍🏻 발신자 이름</p>
+			<Input
+				type='text'
+				placeholder='보내는 사람의 이름을 입력하세요'
+				onChange={(e) => {
+					setName(e.target.value);
+				}}
+			/>
 			<p>✉️ 수신인</p>
-			<EmailInput
+			<Input
 				type='email'
 				placeholder='이메일을 입력하세요'
 				onChange={(e) => {
 					setEmail(e.target.value);
 				}}
 			/>
+			{errMSG ? <ErrorMSG>{errMSG}</ErrorMSG> : ''}
 			<ToMeCheckBox>
 				<Checkbox type='checkbox' />
 				<label>나에게 보내기</label>
@@ -125,7 +146,7 @@ const ToMeCheckBox = styled.div`
 const Checkbox = styled.input`
 	margin-right: 5px;
 `;
-const EmailInput = styled.input`
+const Input = styled.input`
 	width: 100%;
 	font-size: 16px;
 	padding: 1rem;
@@ -148,4 +169,9 @@ const SendButton = styled.button`
 	margin: 20px 0;
 	height: 60px;
 	font-size: 1.2rem;
+`;
+const ErrorMSG = styled.div`
+	color: #b91d1d;
+	font-size: 0.9rem;
+	margin-bottom: 10px;
 `;
