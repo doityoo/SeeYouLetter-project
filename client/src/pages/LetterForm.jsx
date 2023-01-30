@@ -6,7 +6,7 @@ import GlobalStyle from '../UI/GlobalStyle';
 import TextEditor from '../components/TextEditor';
 
 import { database } from '../services/firebase-config';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 // 날짜 출력 라이브러리(Dayjs)
 import 'dayjs/locale/ko'; // 한국어 가져오기
@@ -23,6 +23,14 @@ const LetterForm = () => {
 	const [name, setName] = useState('');
 
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
+	// const date = new Date('2010-05-25');
+	// console.log(typeof date.getTime());
+	// const today = '2023-01-27 16:35:00';
+	// const todayTimestamp = new Date(today);
+	// console.log('today is', todayTimestamp);
+	const now = Date.now();
+	const expiresAt = new Date(now + 24 * 60 * 60 * 1000);
+	console.log(expiresAt);
 
 	function strCheck(str, type) {
 		const REGEX = {
@@ -45,6 +53,9 @@ const LetterForm = () => {
 			const colAdd = collection(database, 'send_email');
 			try {
 				addDoc(colAdd, {
+					delivery: {
+						startTime: serverTimestamp(),
+					},
 					from: 'honesty407@gmail.com',
 					message: {},
 					template: {
@@ -64,7 +75,7 @@ const LetterForm = () => {
 			} catch {
 				console.log('Not send email!');
 			}
-		}, 3000);
+		}, 1000);
 	};
 
 	return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../reducers/authSlice';
@@ -21,7 +21,7 @@ const Login = () => {
 	const pwRef = useRef();
 	const [loginEmail, setLoginEmail] = useState('');
 	const [loginPassword, setLoginPassword] = useState('');
-	const [validationMSG, setValidationMSG] = useState('');
+	// const [validationMSG, setValidationMSG] = useState('');
 	const [error, setError] = useState('');
 
 	// ID,PW 유효성 검사(ref)
@@ -29,7 +29,7 @@ const Login = () => {
 		const email = emailRef.current.value;
 		const password = pwRef.current.value;
 		let regEmail =
-			/^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+			/^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 		if (email.length === 0) {
 			setError('이메일을 입력해주세요');
 			return false;

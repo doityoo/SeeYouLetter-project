@@ -51,10 +51,10 @@ const Icon = styled.img`
 	object-fit: cover;
 	cursor: pointer;
 `;
-const ModalOutSection = styled.div`
-	position: fixed;
-	z-index: 999;
-	width: 100%;
-	height: 100%;
-	box-sizing: border-box;
-`;
+// const ModalOutSection = styled.div`
+// 	position: fixed;
+// 	z-index: 999;
+// 	width: 100%;
+// 	height: 100%;
+// 	box-sizing: border-box;
+// `;
