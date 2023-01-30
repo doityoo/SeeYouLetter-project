@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 import Header from '../components/Header';
 import GlobalStyle from '../UI/GlobalStyle';
 import TextEditor from '../components/TextEditor';
+import { useSelector } from 'react-redux';
 
 import { database } from '../services/firebase-config';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
@@ -24,14 +24,6 @@ const LetterForm = () => {
 
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 	const currentDateEng = dayjs(new Date()).format('YYYY. MM. DD.');
-	// const date = new Date('2010-05-25');
-	// console.log(typeof date.getTime());
-	// const today = '2023-01-27 16:35:00';
-	// const todayTimestamp = new Date(today);
-	// console.log('today is', todayTimestamp);
-	// const now = Date.now();
-	// const expiresAt = new Date(now + 24 * 60 * 60 * 1000);
-	// console.log(expiresAt);
 
 	function strCheck(str, type) {
 		const REGEX = {
@@ -45,35 +37,33 @@ const LetterForm = () => {
 	}
 
 	const submitHandler = async () => {
-		console.log('Submit Clicked!');
 		if (strCheck(email, 'email') === false) {
 			setErrMSG('이메일 형식이 올바르지 않습니다.');
 			return false;
 		}
-		setTimeout(() => {
-			const colAdd = collection(database, 'send_email');
-			try {
-				addDoc(colAdd, {
-					delivery: {
-						startTime: serverTimestamp(),
+		const colAdd = collection(database, 'send_email');
+		try {
+			await addDoc(colAdd, {
+				delivery: {
+					startTime: serverTimestamp(),
+				},
+				from: 'honesty407@gmail.com',
+				message: {},
+				template: {
+					data: {
+						sendDate: `${currentDateEng}`,
+						userName: `${name}`,
+						body: `${textBody}`,
 					},
-					from: 'honesty407@gmail.com',
-					message: {},
-					template: {
-						data: {
-							sendDate: `${currentDateEng}`,
-							userName: `${name}`,
-							body: `${textBody}`,
-						},
-						name: 'sendEmail',
-					},
-					to: `${email}`,
-				});
-				console.log('Send email!');
-			} catch {
-				console.log('Not send email!');
-			}
-		}, 1000);
+					name: 'sendEmail',
+				},
+				to: `${email}`,
+			});
+			console.log('Send email!');
+		} catch {
+			console.log('Not send email!');
+		}
+		await window.location.reload();
 	};
 
 	return (

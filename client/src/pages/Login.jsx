@@ -82,6 +82,7 @@ const Login = () => {
 					{/* 로그인 ID / PW 입력창 */}
 					<Input
 						ref={emailRef}
+						type='email'
 						placeholder='이메일'
 						onChange={(e) => {
 							setLoginEmail(e.target.value);

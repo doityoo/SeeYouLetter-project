@@ -10,6 +10,7 @@ const TextEditor = () => {
 	const [textBody, setTextBody] = useState("");
 	dispatch(textBodyActions.setTextBody(textBody));
 
+
 	return (
 		<>
 			<StyledEditor

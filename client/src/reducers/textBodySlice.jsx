@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
 	context: "",
+	initBody: true,
 };
 
 const textBodySlice = createSlice({
@@ -11,9 +12,6 @@ const textBodySlice = createSlice({
 		setTextBody(state, action) {
 			state.context = action.payload;
 		},
-		// logout(state) {
-		//   state.isAuthenticated = false;
-		// },
 	},
 });
 
