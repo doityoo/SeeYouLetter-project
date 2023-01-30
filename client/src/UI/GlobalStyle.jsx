@@ -6,9 +6,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     background: #EEEAE9;
-    @media screen and (min-width: 391px) {
+    /* @media screen and (min-width: 391px) {
     display: none;
-    }
+    } */
   }
   button {
     border: none;
