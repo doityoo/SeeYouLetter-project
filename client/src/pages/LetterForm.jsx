@@ -23,14 +23,15 @@ const LetterForm = () => {
 	const [name, setName] = useState('');
 
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
+	const currentDateEng = dayjs(new Date()).format('YYYY. MM. DD.');
 	// const date = new Date('2010-05-25');
 	// console.log(typeof date.getTime());
 	// const today = '2023-01-27 16:35:00';
 	// const todayTimestamp = new Date(today);
 	// console.log('today is', todayTimestamp);
-	const now = Date.now();
-	const expiresAt = new Date(now + 24 * 60 * 60 * 1000);
-	console.log(expiresAt);
+	// const now = Date.now();
+	// const expiresAt = new Date(now + 24 * 60 * 60 * 1000);
+	// console.log(expiresAt);
 
 	function strCheck(str, type) {
 		const REGEX = {
@@ -60,11 +61,8 @@ const LetterForm = () => {
 					message: {},
 					template: {
 						data: {
-							sendDate: `${currentDate}`,
+							sendDate: `${currentDateEng}`,
 							userName: `${name}`,
-							header: `
-									이 편지는 See you letter에서 ${name}님이 ${currentDate}에 보낸 편지입니다.
-								`,
 							body: `${textBody}`,
 						},
 						name: 'sendEmail',
