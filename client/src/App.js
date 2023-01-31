@@ -6,12 +6,9 @@ import Signup from "./pages/Signup";
 import FindIdPw from "./pages/FindIdPw";
 import LetterForm from "./pages/LetterForm";
 
-
-
 function App() {
   const isLogin = useSelector((state) => state.auth.isAuthenticated)
   console.log(isLogin)
-  // const isLogin = localStorage.getItem('key')
 
   return (
     <div className="App">
@@ -26,6 +23,7 @@ function App() {
         {isLogin && (
           <Route path="/letterForm" element={<LetterForm />} />
         )}
+        <Route path="*" element={<LetterForm />} />
       </Routes>
     </div>
   );
