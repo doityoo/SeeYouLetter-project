@@ -18,12 +18,15 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/findIdPw" element={<FindIdPw />} />
+            <Route path="*" element={<Login />} />
           </>
         )}
         {isLogin && (
-          <Route path="/letterForm" element={<LetterForm />} />
+          <>
+            <Route path="/letterForm" element={<LetterForm />} />
+            <Route path="*" element={<LetterForm />} />
+          </>
         )}
-        <Route path="*" element={<LetterForm />} />
       </Routes>
     </div>
   );
