@@ -1,14 +1,14 @@
 ## See you letter !
 
-- Language / Javascript -> Typescript
+- Language / Javascript
 - FrameWork / React.js
 - CSS / styled-component
 - 로그인,회원가입 서버 / fire-base
-- Server / express(node.js)
-- 상태관리 / redux-toolkit or recoil
+- 데이터 / fireStore
+- 메일 전송 / TriggerEmail extensions
+- 상태관리 / redux-toolkit, redux-persist, redux-purge
 - Ouath2.0(카카오, 구글)
 
-& modal 모듈화
 <br>
 & 로딩 컴포넌트
 <br>
