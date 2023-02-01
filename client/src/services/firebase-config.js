@@ -2,6 +2,14 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { authActions } from "../reducers/authSlice";
+import { useDispatch } from "react-redux";
+
+export const GetUserEmail = () => { 
+  const dispatch = useDispatch();
+  const getUserData = authService.currentUser.email;
+  dispatch(authActions.userEmail(getUserData))
+}
 
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API,
@@ -21,3 +29,4 @@ export const authService = getAuth(app);
 // export const googleProvider = new initializeApp.auth.GoogleAuthProvider();
 export const database = getFirestore(app);
 // db 접근
+

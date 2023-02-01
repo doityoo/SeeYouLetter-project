@@ -67,6 +67,9 @@ const Login = () => {
 			if (isTokened) {
 				dispatch(authActions.login());
 				navigate('/letterForm');
+				const getUserData = authService.currentUser.email;
+				console.log(getUserData);
+				dispatch(authActions.userEmail(getUserData));
 			}
 		} catch (err) {
 			console.log(err);

@@ -17,10 +17,12 @@ dayjs.locale('ko');
 
 const LetterForm = () => {
 	const textBody = useSelector((state) => state.textBody.context);
+	const userEmail = useSelector((state) => state.auth.isUserEmail);
 	const [menu, setMenu] = useState([true, false, false]);
 	const [email, setEmail] = useState('');
 	const [errMSG, setErrMSG] = useState('');
 	const [name, setName] = useState('');
+	const [isChecked, setisChecked] = useState(false);
 
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 	const currentDateEng = dayjs(new Date()).format('YYYY. MM. DD.');
@@ -66,6 +68,11 @@ const LetterForm = () => {
 		await window.location.reload();
 	};
 
+	const handleChecked = (e) => {
+		setisChecked(e.target.checked);
+		setEmail(userEmail);
+	};
+
 	return (
 		<Wrapper>
 			<GlobalStyle />
@@ -88,13 +95,18 @@ const LetterForm = () => {
 			<Input
 				type='email'
 				placeholder='이메일을 입력하세요'
+				value={isChecked? email : ""}
 				onChange={(e) => {
 					setEmail(e.target.value);
 				}}
 			/>
 			{errMSG ? <ErrorMSG>{errMSG}</ErrorMSG> : ''}
 			<ToMeCheckBox>
-				<Checkbox type='checkbox' />
+				<Checkbox
+					type='checkbox'
+					checked={isChecked}
+					onChange={handleChecked}
+				/>
 				<label>나에게 보내기</label>
 			</ToMeCheckBox>
 			<p>📬 발송일</p>

@@ -4,6 +4,7 @@ import { PURGE } from "redux-persist";
 
 const initialState = {
   isAuthenticated: false,
+  isUserEmail: "",
 };
 
 const authSlice = createSlice({
@@ -16,6 +17,9 @@ const authSlice = createSlice({
     // logout(state) {
     //   state.isAuthenticated = false;
     // },
+    userEmail(state, action) { 
+      state.isUserEmail = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, () => initialState);
