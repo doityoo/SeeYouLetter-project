@@ -15,7 +15,9 @@ const Header = () => {
 	};
 
 	const modalCloseHandler = (e) => {
-		if (isOpen && !outSection.current.contains(e.target)) setIsOpen(false);
+		// target 밖 클릭시 모달 false로 만드는 로직(error)
+		// if (isOpen && !outSection.current.contain(e.target)) setIsOpen(false);
+		if (isOpen) setIsOpen(false);
 	};
 
 	useEffect(() => {
@@ -29,7 +31,7 @@ const Header = () => {
 		<div>
 			<Wrapper>
 				<Link to='/letterForm'>
-					<Icon src={logo} alt='logo' />
+						<Icon src={logo} alt='logo' />
 				</Link>
 				<Icon src={bar} alt='hamburgerIcon' onClick={() => modal()}></Icon>
 				{isOpen && <LogoutModal ref={outSection} />}

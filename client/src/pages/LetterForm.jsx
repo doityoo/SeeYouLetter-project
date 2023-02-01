@@ -22,11 +22,12 @@ const LetterForm = () => {
 	const [email, setEmail] = useState('');
 	const [errMSG, setErrMSG] = useState('');
 	const [isChecked, setIsChecked] = useState(false);
-	const [period, setPeriod] = useState(0);
+	const [period, setPeriod] = useState();
 
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 	const currentDateEng = dayjs(new Date()).format('YYYY. MM. DD.');
 
+	console.log(period)
 	let periodData = [
 		{
 			id: 0,
@@ -41,7 +42,6 @@ const LetterForm = () => {
 			period: '3개월 뒤',
 		},
 	];
-	console.log(period);
 
 	function strCheck(str, type) {
 		const REGEX = {
