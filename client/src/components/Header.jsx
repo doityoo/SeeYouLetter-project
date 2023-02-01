@@ -15,9 +15,7 @@ const Header = () => {
 	};
 
 	const modalCloseHandler = (e) => {
-		// target 밖 클릭시 모달 false로 만드는 로직(error)
-		// if (isOpen && !outSection.current.contain(e.target)) setIsOpen(false);
-		if (isOpen) setIsOpen(false);
+		if (isOpen && !outSection.current.contain(e.target)) setIsOpen(false);
 	};
 
 	useEffect(() => {
