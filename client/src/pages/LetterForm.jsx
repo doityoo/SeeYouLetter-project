@@ -22,10 +22,26 @@ const LetterForm = () => {
 	const [email, setEmail] = useState('');
 	const [errMSG, setErrMSG] = useState('');
 	const [isChecked, setIsChecked] = useState(false);
-	const [menu, setMenu] = useState([true, false, false]);
+	const [period, setPeriod] = useState(0);
 
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 	const currentDateEng = dayjs(new Date()).format('YYYY. MM. DD.');
+
+	let periodData = [
+		{
+			id: 0,
+			period: '1년 뒤',
+		},
+		{
+			id: 1,
+			period: '6개월 뒤',
+		},
+		{
+			id: 2,
+			period: '3개월 뒤',
+		},
+	];
+	console.log(period);
 
 	function strCheck(str, type) {
 		const REGEX = {
@@ -116,27 +132,17 @@ const LetterForm = () => {
 			</ToMeCheckBox>
 			<p>📬 발송일</p>
 			<ButtonWrap>
-				<PeriodButton
-					onClick={() => {
-						setMenu([true, false, false]);
-					}}
-				>
-					1년 뒤
-				</PeriodButton>
-				<PeriodButton
-					onClick={() => {
-						setMenu([false, true, false]);
-					}}
-				>
-					6개월 뒤
-				</PeriodButton>
-				<PeriodButton
-					onClick={() => {
-						setMenu([false, false, true]);
-					}}
-				>
-					3개월 뒤
-				</PeriodButton>
+				{periodData.map((item) => (
+					<PeriodButton
+						key={item.id}
+						onClick={() => {
+							setPeriod(item.id);
+						}}
+						color="true"
+					>
+						{item.period}
+					</PeriodButton>
+				))}
 			</ButtonWrap>
 			<SendButton onClick={submitHandler}>보내기</SendButton>
 		</Wrapper>
@@ -174,8 +180,8 @@ const PeriodButton = styled.button`
 	border: 1px solid orange;
 	background-color: transparent;
 	color: black;
-	&:active {
-		background-color: orange;
+	&:focus {
+		background-color: ${(props) => (props.color ? 'orange' : 'none')};
 	}
 `;
 const ButtonWrap = styled.div`
