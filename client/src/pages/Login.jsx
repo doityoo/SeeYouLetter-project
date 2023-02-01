@@ -68,7 +68,6 @@ const Login = () => {
 				dispatch(authActions.login());
 				navigate('/letterForm');
 				const getUserData = authService.currentUser.email;
-				console.log(getUserData);
 				dispatch(authActions.userEmail(getUserData));
 			}
 		} catch (err) {

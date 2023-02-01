@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
+import { useSelector } from 'react-redux';
 import GlobalStyle from '../UI/GlobalStyle';
 import TextEditor from '../components/TextEditor';
-import { useSelector } from 'react-redux';
 
 import { database } from '../services/firebase-config';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
@@ -18,11 +18,11 @@ dayjs.locale('ko');
 const LetterForm = () => {
 	const textBody = useSelector((state) => state.textBody.context);
 	const userEmail = useSelector((state) => state.auth.isUserEmail);
-	const [menu, setMenu] = useState([true, false, false]);
+	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [errMSG, setErrMSG] = useState('');
-	const [name, setName] = useState('');
-	const [isChecked, setisChecked] = useState(false);
+	const [isChecked, setIsChecked] = useState(false);
+	const [menu, setMenu] = useState([true, false, false]);
 
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 	const currentDateEng = dayjs(new Date()).format('YYYY. MM. DD.');
@@ -65,12 +65,17 @@ const LetterForm = () => {
 		} catch {
 			console.log('Not send email!');
 		}
-		await window.location.reload();
+		window.location.reload();
 	};
 
 	const handleChecked = (e) => {
-		setisChecked(e.target.checked);
-		setEmail(userEmail);
+		if (e.target.checked) {
+			setIsChecked(e.target.checked);
+			setEmail(userEmail);
+		} else {
+			setIsChecked(false);
+			setEmail('');
+		}
 	};
 
 	return (
@@ -95,7 +100,7 @@ const LetterForm = () => {
 			<Input
 				type='email'
 				placeholder='이메일을 입력하세요'
-				value={isChecked? email : ""}
+				value={email}
 				onChange={(e) => {
 					setEmail(e.target.value);
 				}}

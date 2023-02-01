@@ -4,12 +4,10 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { textBodyActions } from '../reducers/textBodySlice';
 
-
 const TextEditor = () => {
 	const dispatch = useDispatch();
 	const [textBody, setTextBody] = useState("");
 	dispatch(textBodyActions.setTextBody(textBody));
-
 
 	return (
 		<>
