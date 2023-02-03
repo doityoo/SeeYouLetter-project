@@ -7,7 +7,7 @@ import LogoutModal from './LogoutModal';
 import { useState, useRef, useEffect } from 'react';
 
 const Header = () => {
-	const outSection = useRef();
+	const outSection = useRef(null);
 	const [isOpen, setIsOpen] = useState(false);
 
 	const modal = () => {
@@ -15,7 +15,7 @@ const Header = () => {
 	};
 
 	const modalCloseHandler = (e) => {
-		if (isOpen && !outSection.current.contain(e.target)) setIsOpen(false);
+		if (isOpen && !outSection.current.contains(e.target)) setIsOpen(false);
 	};
 
 	useEffect(() => {
@@ -29,10 +29,15 @@ const Header = () => {
 		<div>
 			<Wrapper>
 				<Link to='/letterForm'>
-						<Icon src={logo} alt='logo' />
+					<Icon src={logo} alt='logo' />
 				</Link>
-				<Icon src={bar} alt='hamburgerIcon' onClick={() => modal()}></Icon>
-				{isOpen && <LogoutModal ref={outSection} />}
+				<Icon
+					src={bar}
+					alt='hamburgerIcon'
+					onClick={() => modal()}
+					ref={outSection}
+				></Icon>
+				{isOpen && <LogoutModal />}
 			</Wrapper>
 		</div>
 	);
