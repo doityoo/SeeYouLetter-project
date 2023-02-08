@@ -5,10 +5,20 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import FindIdPw from "./pages/FindIdPw";
 import LetterForm from "./pages/LetterForm";
+import axios from 'axios';
+import { useEffect } from 'react';
 
 function App() {
   const isLogin = useSelector((state) => state.auth.isAuthenticated)
   console.log(isLogin)
+
+  const callApi = async () => {
+    axios.get("/").then(() => { console.log("res data!") });
+  };
+
+  useEffect(() => {
+    callApi();
+  }, []);
 
   return (
     <div className="App">
