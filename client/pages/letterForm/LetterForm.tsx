@@ -3,10 +3,10 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Header from '../../../src/components/Header';
 import { useSelector } from 'react-redux';
-import GlobalStyle from '../../../src/UI/GlobalStyle';
+import GlobalStyle from '../../components/UI/GlobalStyle';
 import TextEditor from '../../../src/components/TextEditor';
 
-import { database } from '../../../src/services/firebase-config';
+import { database } from '../../services/firebase-config';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 // 날짜 출력 라이브러리(Dayjs)

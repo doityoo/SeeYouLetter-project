@@ -1,4 +1,5 @@
 const express = require('express')
+const letterForm = require('./Router/letterForm') 
 const app = express()
 const port = 3001;
 // const cors = require('cors');
@@ -18,13 +19,12 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + "/../client/build/index.html")
 })
 
-// app.use('/test', test)
+app.use("/letterForm", letterForm)
 
-// 
 app.listen(port, () => {
   console.log(`Hello,  port is ${port}`)
 })
 
-// app.get('*', (res, req) => {
-//   req.sendFile(path.join(__dirname, '/client/build/index.html'));
-// });
+app.get('*', (res, req) => {
+  req.sendFile(__dirname + "/../client/build/index.html");
+});

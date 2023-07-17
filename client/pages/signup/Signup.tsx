@@ -3,14 +3,14 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
-import GlobalStyle from '../../../src/UI/GlobalStyle';
+import GlobalStyle from '../../components/UI/GlobalStyle';
 import googleLogo from './../assets/google-logo.png';
 import kakaoLogo from './../assets/kakao-logo.png';
 
 import Header from '../../../src/components/Header';
 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { authService } from '../../../src/services/firebase-config';
+import { authService } from '../../services/firebase-config';
 
 const Signup = () => {
 	const [email, setEmail] = useState('');
