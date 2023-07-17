@@ -1,48 +1,55 @@
-import React from 'react';
-import styled from 'styled-components';
-import logo from './../assets/seeYouLetter-logo.png';
-import bar from './../assets/hamburgerBar.png';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+
+import logo from './../public/seeYouLetter-logo.png';
+import bar from './../public/hamburgerBar.png';
 import LogoutModal from './LogoutModal';
-import { useState, useRef, useEffect } from 'react';
 
 const Header = () => {
 	const router = useRouter();
-
-	const outSection = useRef(null);
+	const outSection = useRef<HTMLImageElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const modal = () => {
+	const toggleModal = () => {
 		setIsOpen(!isOpen);
 	};
 
-	const modalCloseHandler = (e) => {
-		if (isOpen && !outSection.current.contains(e.target)) setIsOpen(false);
+	const closeModal = (e: MouseEvent) => {
+		if (
+			isOpen &&
+			outSection.current &&
+			!outSection.current.contains(e.target as Node)
+		) {
+			setIsOpen(false);
+		}
 	};
 
 	useEffect(() => {
-		window.addEventListener('click', modalCloseHandler);
+		window.addEventListener('click', closeModal);
 		return () => {
-			window.removeEventListener('click', modalCloseHandler);
+			window.removeEventListener('click', closeModal);
 		};
-	});
+	}, []);
+
+	const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+		e.preventDefault();
+		router.push('/letterForm');
+	};
 
 	return (
-		<div>
-			<Wrapper>
-				<Link to='/letterForm'>
-					<Icon src={logo} alt='logo' />
-				</Link>
-				<Icon
-					src={bar}
-					alt='hamburgerIcon'
-					onClick={() => modal()}
-					ref={outSection}
-				></Icon>
-				{isOpen && <LogoutModal />}
-			</Wrapper>
-		</div>
+		<Wrapper>
+			<LogoLink href='/letterForm' onClick={handleLogoClick}>
+				<Logo src={logo as any} alt='logo' />
+			</LogoLink>
+			<HamburgerIcon
+				src={bar as any}
+				alt='hamburgerIcon'
+				onClick={toggleModal}
+				ref={outSection}
+			/>
+			{isOpen && <LogoutModal />}
+		</Wrapper>
 	);
 };
 
@@ -51,9 +58,20 @@ export default Header;
 const Wrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
-	margin: 23px 0 23px 0;
+	margin: 23px 0;
 `;
-const Icon = styled.img`
+
+const LogoLink = styled.a`
+	cursor: pointer;
+`;
+
+const Logo = styled.img`
+	width: auto;
+	height: 15px;
+	object-fit: cover;
+`;
+
+const HamburgerIcon = styled.img`
 	width: auto;
 	height: 15px;
 	object-fit: cover;

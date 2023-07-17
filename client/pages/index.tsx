@@ -8,7 +8,6 @@ import {
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-// import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authActions } from './../reducers/authSlice';
 
