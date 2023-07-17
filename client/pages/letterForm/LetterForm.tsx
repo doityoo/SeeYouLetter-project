@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import Header from '../../../src/components/Header';
+import Header from './../../components/Header';
 import { useSelector } from 'react-redux';
 import GlobalStyle from '../../components/UI/GlobalStyle';
-import TextEditor from '../../../src/components/TextEditor';
+import TextEditor from './../../components/TextEditor';
 
 import { database } from '../../services/firebase-config';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
@@ -16,14 +16,31 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
+interface sliceTextTypes {
+	textBody: { context: string; initBody: true };
+}
+
+interface sliceEmailTypes {
+	auth: { isUserEmail: string; isAuthenticated: false };
+}
+
+interface PeriodData {
+	id: number;
+	period: string;
+}
+
 const LetterForm = () => {
-	const textBody = useSelector((state) => state.textBody.context);
-	const userEmail = useSelector((state) => state.auth.isUserEmail);
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
-	const [errMSG, setErrMSG] = useState('');
-	const [isChecked, setIsChecked] = useState(false);
-	const [period, setPeriod] = useState();
+	const textBody = useSelector(
+		(state: sliceTextTypes) => state.textBody.context
+	);
+	const userEmail = useSelector(
+		(state: sliceEmailTypes) => state.auth.isUserEmail
+	);
+	const [name, setName] = useState<string>('');
+	const [email, setEmail] = useState<string>('');
+	const [errMSG, setErrMSG] = useState<string>('');
+	const [isChecked, setIsChecked] = useState<boolean>(false);
+	const [period, setPeriod] = useState<number | undefined>(undefined);
 
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 	const currentDateEng = dayjs(new Date()).format('YYYY. MM. DD.');
@@ -39,7 +56,7 @@ const LetterForm = () => {
 	}, []);
 
 	// console.log(period)
-	let periodData = [
+	let periodData: PeriodData[] = [
 		{
 			id: 0,
 			period: '1년 뒤',
@@ -54,7 +71,7 @@ const LetterForm = () => {
 		},
 	];
 
-	function strCheck(str, type) {
+	function strCheck(str: string, type: string) {
 		const REGEX = {
 			EMAIL: /\S+@\S+\.\S+/,
 		};
@@ -95,7 +112,7 @@ const LetterForm = () => {
 		window.location.reload();
 	};
 
-	const handleChecked = (e) => {
+	const handleChecked = (e: any) => {
 		if (e.target.checked) {
 			setIsChecked(e.target.checked);
 			setEmail(userEmail);

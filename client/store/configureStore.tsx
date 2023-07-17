@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './../reducers/authSlice';
+import authReducer from '../reducers/authSlice';
 import textBodyReducer from '../reducers/textBodySlice';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, PURGE, PERSIST } from 'redux-persist';
