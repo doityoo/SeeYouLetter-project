@@ -2,17 +2,17 @@ import React from 'react';
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { authActions } from '../reducers/authSlice';
+import { authActions } from '../../../src/reducers/authSlice';
 
 import styled from 'styled-components';
-import GlobalStyle from '../UI/GlobalStyle';
+import GlobalStyle from '../../../src/UI/GlobalStyle';
 import googleLogo from './../assets/google-logo.png';
 import kakaoLogo from './../assets/kakao-logo.png';
-import Header from '../components/Header';
+import Header from '../../../src/components/Header';
 
 // import auth from '../services/auth'
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { authService } from './../services/firebase-config';
+import { authService } from '../../../src/services/firebase-config';
 
 const Login = () => {
 	const dispatch = useDispatch();
@@ -128,7 +128,10 @@ const Login = () => {
 export default Login;
 
 const Wrapper = styled.div`
-	margin: 0 20px;
+	margin: 0 auto;
+	width: 400px;
+	padding: 0 20px;
+	min-height: 100vh;
 `;
 const Form = styled.form`
 	display: flex;

@@ -21,4 +21,3 @@ export const authService = getAuth(app);
 // export const googleProvider = new initializeApp.auth.GoogleAuthProvider();
 export const database = getFirestore(app);
 // db 접근
-

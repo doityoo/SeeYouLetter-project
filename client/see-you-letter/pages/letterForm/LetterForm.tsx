@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
-import Header from '../components/Header';
+import Header from '../../../src/components/Header';
 import { useSelector } from 'react-redux';
-import GlobalStyle from '../UI/GlobalStyle';
-import TextEditor from '../components/TextEditor';
+import GlobalStyle from '../../../src/UI/GlobalStyle';
+import TextEditor from '../../../src/components/TextEditor';
 
-import { database } from '../services/firebase-config';
+import { database } from '../../../src/services/firebase-config';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 // 날짜 출력 라이브러리(Dayjs)
@@ -27,7 +28,17 @@ const LetterForm = () => {
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 	const currentDateEng = dayjs(new Date()).format('YYYY. MM. DD.');
 
-	console.log(period)
+	const callApi = async () => {
+		axios.get('/letterForm').then(() => {
+			console.log('This is LetterForm page.');
+		});
+	};
+
+	useEffect(() => {
+		callApi();
+	}, []);
+
+	// console.log(period)
 	let periodData = [
 		{
 			id: 0,
@@ -138,7 +149,7 @@ const LetterForm = () => {
 						onClick={() => {
 							setPeriod(item.id);
 						}}
-						color="true"
+						color='true'
 					>
 						{item.period}
 					</PeriodButton>
@@ -152,7 +163,10 @@ const LetterForm = () => {
 export default LetterForm;
 
 const Wrapper = styled.div`
-	margin: 0 20px;
+	margin: 0 auto;
+	width: 400px;
+	padding: 0 20px;
+	min-height: 100vh;
 `;
 const StyledText1 = styled.h2`
 	font-weight: 300;

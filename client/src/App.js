@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import FindIdPw from "./pages/FindIdPw";
-import LetterForm from "./pages/LetterForm";
+import Login from "../see-you-letter/pages/Login";
+import Signup from "../see-you-letter/pages/signup/Signup";
+import FindIdPw from "../see-you-letter/pages/FindIdPw";
+import LetterForm from "../see-you-letter/pages/letterForm/LetterForm";
 import axios from 'axios';
 import { useEffect } from 'react';
 
