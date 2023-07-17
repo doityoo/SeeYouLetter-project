@@ -2,11 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import logo from './../assets/seeYouLetter-logo.png';
 import bar from './../assets/hamburgerBar.png';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import LogoutModal from './LogoutModal';
 import { useState, useRef, useEffect } from 'react';
 
 const Header = () => {
+	const router = useRouter();
+
 	const outSection = useRef(null);
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -56,10 +59,3 @@ const Icon = styled.img`
 	object-fit: cover;
 	cursor: pointer;
 `;
-// const ModalOutSection = styled.div`
-// 	position: fixed;
-// 	z-index: 999;
-// 	width: 100%;
-// 	height: 100%;
-// 	box-sizing: border-box;
-// `;
