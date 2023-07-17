@@ -1,14 +1,13 @@
 import React from 'react';
 import { useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { authActions } from '../../../src/reducers/authSlice';
+import { authActions } from './../../reducers/authSlice';
 
 import styled from 'styled-components';
 import GlobalStyle from '../../components/UI/GlobalStyle';
 import googleLogo from './../assets/google-logo.png';
 import kakaoLogo from './../assets/kakao-logo.png';
-import Header from '../../../src/components/Header';
+import Header from './../../components/Header';
 
 // import auth from '../services/auth'
 import { signInWithEmailAndPassword } from 'firebase/auth';
