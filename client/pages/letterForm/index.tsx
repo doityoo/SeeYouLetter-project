@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import Header from './../../components/Header';
+import Header from '../../components/Header';
 import { useSelector } from 'react-redux';
 import GlobalStyle from '../../components/UI/GlobalStyle';
-import TextEditor from './../../components/TextEditor';
+import TextEditor from '../../components/TextEditor';
 
 import { database } from '../../services/firebase-config';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';

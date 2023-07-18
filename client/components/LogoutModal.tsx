@@ -14,26 +14,29 @@ const LogoutModal = () => {
 	};
 
 	return (
-		<>
+		<ModalContainer>
 			<Button
 				onClick={async () => {
 					await logout();
 					await setTimeout(() => purge(), 200);
 				}}
 			>
-				Log out
+				로그아웃
 			</Button>
-		</>
+		</ModalContainer>
 	);
 };
+
+const ModalContainer = styled.div`
+	position: absolute;
+	top: -40px;
+	right: -490px;
+	z-index: 1;
+`;
 
 const Button = styled.button`
 	width: 100px;
 	height: 40px;
-	position: fixed;
-	top: 30px;
-	bottom: 0;
-	right: 25px;
 `;
 
 export default LogoutModal;

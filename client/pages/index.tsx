@@ -186,10 +186,6 @@ type FlexBetweenProps = HTMLAttributes<HTMLDivElement> & {
 	width?: boolean;
 };
 
-type IconProps = ImgHTMLAttributes<HTMLImageElement> & {
-	src?: string | undefined;
-};
-
 const Wrapper = styled.div`
 	margin: 0 auto;
 	width: 400px;

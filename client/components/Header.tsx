@@ -2,8 +2,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import logo from './../public/seeYouLetter-logo.png';
-import bar from './../public/hamburgerBar.png';
 import LogoutModal from './LogoutModal';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -32,7 +30,7 @@ const Header = () => {
 		return () => {
 			window.removeEventListener('click', closeModal);
 		};
-	}, []);
+	}, [isOpen]);
 
 	const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
@@ -40,27 +38,32 @@ const Header = () => {
 	};
 
 	return (
-		<Wrapper>
-			<Link href={'/'} onClick={handleLogoClick}>
-				<Image
-					src='/seeYouLetter-logo.png'
-					alt='My Logo'
-					height={50}
-					width={160}
-					layout='intrinsic'
+		<>
+			<Wrapper>
+				<Link href={'/'} onClick={handleLogoClick}>
+					<Image
+						src='/seeYouLetter-logo.png'
+						alt='My Logo'
+						height={50}
+						width={160}
+						layout='intrinsic'
+					/>
+				</Link>
+				<BarIcon
+					src='/hamburgerBar.png'
+					alt='bar icon'
+					height={20}
+					width={20}
+					onClick={toggleModal}
+					ref={outSection}
 				/>
-			</Link>
-			<Image
-				src='/hamburgerBar.png'
-				alt='bar icon'
-				height={50}
-				width={20}
-				layout='intrinsic'
-				onClick={toggleModal}
-				ref={outSection}
-			/>
-			{isOpen && <LogoutModal />}
-		</Wrapper>
+			</Wrapper>
+			{isOpen && (
+				<LogoutModalContainer>
+					<LogoutModal />
+				</LogoutModalContainer>
+			)}
+		</>
 	);
 };
 
@@ -70,4 +73,13 @@ const Wrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
 	margin: 23px 0;
+`;
+const LogoutModalContainer = styled.div`
+	position: relative;
+	top: 0px;
+	right: 500px;
+	z-index: 1;
+`;
+const BarIcon = styled(Image)`
+	cursor: pointer;
 `;
