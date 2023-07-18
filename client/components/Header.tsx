@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import logo from './../public/seeYouLetter-logo.png';
 import bar from './../public/hamburgerBar.png';
 import LogoutModal from './LogoutModal';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const Header = () => {
 	const router = useRouter();
@@ -39,12 +41,21 @@ const Header = () => {
 
 	return (
 		<Wrapper>
-			<LogoLink href='/letterForm' onClick={handleLogoClick}>
-				<Logo src={logo as any} alt='logo' />
-			</LogoLink>
-			<HamburgerIcon
-				src={bar as any}
-				alt='hamburgerIcon'
+			<Link href={'/'} onClick={handleLogoClick}>
+				<Image
+					src='/seeYouLetter-logo.png'
+					alt='My Logo'
+					height={50}
+					width={160}
+					layout='intrinsic'
+				/>
+			</Link>
+			<Image
+				src='/hamburgerBar.png'
+				alt='bar icon'
+				height={50}
+				width={20}
+				layout='intrinsic'
 				onClick={toggleModal}
 				ref={outSection}
 			/>
@@ -59,21 +70,4 @@ const Wrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
 	margin: 23px 0;
-`;
-
-const LogoLink = styled.a`
-	cursor: pointer;
-`;
-
-const Logo = styled.img`
-	width: auto;
-	height: 15px;
-	object-fit: cover;
-`;
-
-const HamburgerIcon = styled.img`
-	width: auto;
-	height: 15px;
-	object-fit: cover;
-	cursor: pointer;
 `;

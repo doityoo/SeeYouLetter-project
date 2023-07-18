@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { persistor } from '../index';
+import { useRouter } from 'next/router';
+import { persistor } from './../store/configureStore';
 
 const LogoutModal = () => {
-	const navigate = useNavigate();
+	const router = useRouter();
 	const purge = async () => {
 		await persistor.purge();
 	};
 	const logout = () => {
 		localStorage.removeItem('key');
-		navigate('/');
+		router.push('/');
 	};
 
 	return (

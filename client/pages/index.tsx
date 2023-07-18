@@ -2,22 +2,23 @@ import {
 	Fragment,
 	useRef,
 	useState,
+	useEffect,
 	HTMLAttributes,
 	ImgHTMLAttributes,
 } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
+
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { authActions } from './../reducers/authSlice';
 
 import styled from 'styled-components';
+import Image from 'next/image';
 import GlobalStyle from './../components/UI/GlobalStyle';
-import googleLogo from './../assets/google-logo.png';
-import kakaoLogo from './../assets/kakao-logo.png';
 import Header from './../components/Header';
 
-// import auth from '../services/auth'
 import {
 	signInWithEmailAndPassword,
 	UserCredential,
@@ -46,11 +47,11 @@ const Login = () => {
 		(state: sliceAuthTypes) => state.auth.isAuthenticated
 	);
 
-	if (isLogin) {
-		// 로그인 상태일 때 letterForm.tsx로 리다이렉트
-		router.push('/letterForm.tsx');
-		return null;
-	}
+	useEffect(() => {
+		if (isLogin) {
+			router.push('/letterForm');
+		}
+	}, [isLogin]);
 
 	// ID,PW 유효성 검사(ref)
 	const checkValidation = (
@@ -149,16 +150,26 @@ const Login = () => {
 					{/* 간편로그인 링크&로고 */}
 					<StyledText1>SNS 계정으로 간편 로그인 / 회원가입</StyledText1>
 					<FlexBetween>
-						<div>
-							{/* <a href={`${baseURL}/login/oauth2/authorize/kakao?redirect_uri=${clientURL}/oauth2/redirect`}> */}
-							<Icon src={kakaoLogo as any} alt='kakaoLogin' />
-							{/* </a> */}
-						</div>
-						<div>
-							{/* <a href={`${baseURL}/login/oauth2/authorize/google?redirect_uri=${clientURL}/oauth2/redirect`}> */}
-							<Icon src={googleLogo as any} alt='googleLogin' />
-							{/* </a> */}
-						</div>
+						<Link href={'/'}>
+							<Image
+								src='/kakao-logo.png'
+								alt='Kakao Logo'
+								width={40}
+								height={40}
+							/>
+						</Link>
+						{/* <a href={`${baseURL}/login/oauth2/authorize/kakao?redirect_uri=${clientURL}/oauth2/redirect`}> */}
+						{/* </a> */}
+						<Link href={'/'}>
+							<Image
+								src='/google-logo.png'
+								alt='Google Logo'
+								width={40}
+								height={40}
+							/>
+						</Link>
+						{/* <a href={`${baseURL}/login/oauth2/authorize/google?redirect_uri=${clientURL}/oauth2/redirect`}> */}
+						{/* </a> */}
 					</FlexBetween>
 				</Form>
 				{/* {isModalOpen && <Modal num={0} />} */}
@@ -167,7 +178,7 @@ const Login = () => {
 	);
 };
 
-export const getStaticProps = async () => {};
+// export const getStaticProps = async () => {};
 
 export default Login;
 
@@ -198,12 +209,6 @@ const Input = styled.input`
 	margin-bottom: 15px;
 	width: 100%;
 	height: 50px;
-`;
-const Icon = styled.img<IconProps>`
-	width: 50px;
-	height: auto;
-	object-fit: cover;
-	cursor: pointer;
 `;
 const FlexBetween = styled.div<FlexBetweenProps>`
 	display: flex;
