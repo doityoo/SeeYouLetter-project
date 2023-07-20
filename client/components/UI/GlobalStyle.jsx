@@ -5,7 +5,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background: #EEEAE9;
+    /* background: #aaa491; */
     /* @media screen and (min-width: 391px) {
     display: none;
     } */

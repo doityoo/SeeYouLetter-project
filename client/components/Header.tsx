@@ -71,8 +71,10 @@ export default Header;
 
 const Wrapper = styled.div`
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
-	margin: 23px 0;
+	margin: 0 0 15px 0;
+	height: 60px;
 `;
 const LogoutModalContainer = styled.div`
 	position: relative;

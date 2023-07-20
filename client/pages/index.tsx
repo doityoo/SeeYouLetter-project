@@ -191,6 +191,7 @@ const Wrapper = styled.div`
 	width: 400px;
 	padding: 0 20px;
 	min-height: 100vh;
+	background-color: #eeeae9;
 `;
 const Form = styled.form`
 	display: flex;
