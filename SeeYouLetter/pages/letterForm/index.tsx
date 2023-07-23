@@ -6,19 +6,12 @@ import { useSelector } from 'react-redux';
 import GlobalStyle from '../../components/UI/GlobalStyle';
 import TextEditor from '../../components/TextEditor';
 
-import { database } from '../../services/firebase-config';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-
 // 날짜 출력 라이브러리(Dayjs)
 import 'dayjs/locale/ko'; // 한국어 가져오기
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
-
-interface sliceTextTypes {
-	textBody: { context: string; initBody: true };
-}
 
 interface sliceEmailTypes {
 	auth: { isUserEmail: string; isAuthenticated: false };
@@ -30,9 +23,9 @@ interface PeriodData {
 }
 
 const LetterForm = () => {
-	const textBody = useSelector(
-		(state: sliceTextTypes) => state.textBody.context
-	);
+	// const textBody = useSelector(
+	// 	(state: sliceTextTypes) => state.textBody.context
+	// );
 	const userEmail = useSelector(
 		(state: sliceEmailTypes) => state.auth.isUserEmail
 	);
@@ -40,26 +33,19 @@ const LetterForm = () => {
 	const [email, setEmail] = useState<string>('');
 	const [errMSG, setErrMSG] = useState<string>('');
 	const [isChecked, setIsChecked] = useState<boolean>(false);
-	const [period, setPeriod] = useState<number | undefined>(undefined);
+	const [period, setPeriod] = useState<number | undefined>(0);
+	const [reservationDate, setReservationDate] = useState<number | undefined>(
+		undefined
+	);
+	const [textBody, setTextBody] = useState<string>(''); // textBody 상태 추가
 
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
-	const currentDateEng = dayjs(new Date()).format('YYYY. MM. DD.');
-
-	const callApi = async () => {
-		axios.get('/letterForm').then(() => {
-			console.log('This is LetterForm page.');
-		});
-	};
-
-	useEffect(() => {
-		callApi();
-	}, []);
 
 	// console.log(period)
 	let periodData: PeriodData[] = [
 		{
 			id: 0,
-			period: '1년 뒤',
+			period: '3개월 뒤',
 		},
 		{
 			id: 1,
@@ -67,7 +53,11 @@ const LetterForm = () => {
 		},
 		{
 			id: 2,
-			period: '3개월 뒤',
+			period: '1년 뒤',
+		},
+		{
+			id: 3,
+			period: '지금',
 		},
 	];
 
@@ -83,37 +73,50 @@ const LetterForm = () => {
 	}
 
 	const submitHandler = async () => {
+		const curDate = new Date();
+		if (period === 0) {
+			let threeMonth = new Date(curDate);
+			setReservationDate(threeMonth.setMonth(curDate.getMonth() + 3));
+		} else if (period === 1) {
+			let sixMonth = new Date(curDate);
+			setReservationDate(sixMonth.setMonth(curDate.getMonth() + 6));
+		} else if (period === 2) {
+			let oneYear = new Date(curDate);
+			setReservationDate(oneYear.setMonth(curDate.getMonth() + 12));
+		} else if (period === 3) {
+			let now: any = new Date(curDate.getTime() + 1 * 60000);
+			setReservationDate(now);
+		}
+		// submit 전 user가 수신자로 작성하 email형식 유효성 검사
 		if (strCheck(email, 'email') === false) {
 			setErrMSG('이메일 형식이 올바르지 않습니다.');
 			return false;
 		}
 
 		try {
-			// 여기에서 예약된 날짜를 설정하고 서버로 전송해야 합니다.
-			const reservationDate = new Date('2023-07-30T10:00:00');
+			// 여기에서 예약된 날짜를 설정하고 서버로 전송
 			const emailData = {
-				to: 'recipient@example.com',
-				subject: 'Scheduled Email',
-				text: 'This is a scheduled email to be sent on a specific date.',
+				toEmail: email,
+				text: textBody,
+				name: name,
+				reservationDate: reservationDate,
 			};
 
-			const token = localStorage.getItem('userToken');
+			const token = localStorage.getItem('key');
 			if (!token) {
 				console.error('User is not authenticated.');
 				return;
 			}
 
 			// 서버에 토큰과 이메일 데이터를 전송합니다.
-			const response = await fetch('/api/scheduleEmail', {
-				method: 'POST',
+			const response = await axios.post('/api/scheduleEmail', emailData, {
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
-				body: JSON.stringify({ reservationDate, ...emailData }),
 			});
 
-			if (response.ok) {
+			if (response.status === 200) {
 				console.log('Email scheduled successfully!');
 			} else {
 				console.error('Error scheduling email:', response.statusText);
@@ -121,28 +124,6 @@ const LetterForm = () => {
 		} catch (error) {
 			console.error('Error scheduling email:', error);
 		}
-		// const colAdd = collection(database, 'send_email');
-		// try {
-		// 	await addDoc(colAdd, {
-		// 		delivery: {
-		// 			startTime: serverTimestamp(),
-		// 		},
-		// 		from: 'honesty407@gmail.com',
-		// 		message: {},
-		// 		template: {
-		// 			data: {
-		// 				sendDate: `${currentDateEng}`,
-		// 				userName: `${name}`,
-		// 				body: `${textBody}`,
-		// 			},
-		// 			name: 'sendEmail',
-		// 		},
-		// 		to: `${email}`,
-		// 	});
-		// 	console.log('Send email!');
-		// } catch {
-		// 	console.log('Not send email!');
-		// }
 
 		window.location.reload();
 	};
@@ -166,7 +147,10 @@ const LetterForm = () => {
 				<p>나에게, 또는 누군가에게</p>
 				<p>편지를 남겨보세요</p>
 			</StyledText1>
-			<TextEditor />
+			<TextEditor
+				textBody={textBody}
+				setTextBody={(text) => setTextBody(text)}
+			/>
 			<p>✍🏻 발신자 이름</p>
 			<Input
 				type='text'

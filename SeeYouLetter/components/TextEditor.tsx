@@ -1,19 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { textBodyActions } from '../reducers/textBodySlice';
 
-const TextEditor = () => {
-	const dispatch = useDispatch();
-	const [textBody, setTextBody] = useState("");
-	dispatch(textBodyActions.setTextBody(textBody));
-
+interface TextEditorProps {
+	textBody: string;
+	setTextBody: (text: string) => void;
+}
+const TextEditor: React.FC<TextEditorProps> = ({
+	textBody,
+	setTextBody,
+}: TextEditorProps) => {
 	return (
 		<>
 			<StyledEditor
 				placeholder='사랑하는 나에게..'
-				onChange={(e) => { setTextBody(e.target.value) }}
+				value={textBody}
+				onChange={(e) => {
+					setTextBody(e.target.value);
+				}}
 			></StyledEditor>
 		</>
 	);
