@@ -5,6 +5,7 @@ import Header from '../../components/Header';
 import { useSelector } from 'react-redux';
 import GlobalStyle from '../../components/UI/GlobalStyle';
 import TextEditor from '../../components/TextEditor';
+import { useRouter } from 'next/router'; // Next.js의 useRouter를 추가
 
 // 날짜 출력 라이브러리(Dayjs)
 import 'dayjs/locale/ko'; // 한국어 가져오기
@@ -26,6 +27,10 @@ const LetterForm = () => {
 	const userEmail = useSelector(
 		(state: sliceEmailTypes) => state.auth.isUserEmail
 	);
+	const isAuthenticated = useSelector(
+		(state: sliceEmailTypes) => state.auth.isAuthenticated
+	);
+
 	const [name, setName] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
 	const [errMSG, setErrMSG] = useState<string>('');
@@ -34,6 +39,14 @@ const LetterForm = () => {
 	const [isChecked, setIsChecked] = useState<boolean>(false);
 	const [period, setPeriod] = useState<number | undefined>(0);
 	const [reservationDate, setReservationDate] = useState<Date | string>('');
+	const router = useRouter();
+
+	useEffect(() => {
+		// 컴포넌트가 마운트되었을 때 사용자가 로그인되지 않은 경우 리디렉션합니다.
+		if (!isAuthenticated) {
+			router.push('/');
+		}
+	}, [isAuthenticated, router]);
 
 	useEffect(() => {
 		const curDate = new Date();
@@ -58,7 +71,6 @@ const LetterForm = () => {
 			let oneDay = new Date(curDate.getTime() + 24 * 60 * 60000);
 			setReservationDate(oneDay);
 		}
-		console.log('예약날짜 테스트(1)', reservationDate);
 	}, [period]);
 
 	// textEditor 오늘 잘짜 표시 변수

@@ -1,35 +1,37 @@
 import React from 'react';
 import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import styled from 'styled-components';
 import GlobalStyle from '../../components/UI/GlobalStyle';
-import googleLogo from './../assets/google-logo.png';
-import kakaoLogo from './../assets/kakao-logo.png';
 
-import Header from '../../../src/components/Header';
+import Header from './../../components/Header';
 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { authService } from '../../services/firebase-config';
 
 const Signup = () => {
+	const router = useRouter();
+
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [checkPassword, setCheckPassword] = useState('');
 	// const [loading, setLoading] = useState(false);
 	const [errMessage, setErrMessage] = useState('');
 
-	const passwordRef = useRef();
-	const emailRef = useRef();
-	const checkPasswordRef = useRef();
-	const navigate = useNavigate();
+	const passwordRef = useRef<HTMLInputElement>(null);
+	const emailRef = useRef<HTMLInputElement>(null);
+	const checkPasswordRef = useRef<HTMLInputElement>(null);
 
-	const register = async (e) => {
+	const register = async (e: any) => {
 		e.preventDefault();
-		const passwordEdit = passwordRef.current.value;
-		const emailEdit = emailRef.current.value;
-		const confirmPasswordEdit = checkPasswordRef.current.value;
-		function strCheck(str, type) {
+		const passwordEdit = passwordRef.current?.value;
+		const emailEdit = emailRef.current?.value;
+		const confirmPasswordEdit = checkPasswordRef.current?.value;
+
+		function strCheck(str: any, type: any) {
 			const REGEX = {
 				EMAIL: /\S+@\S+\.\S+/,
 				PWD_RULE: /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
@@ -50,8 +52,8 @@ const Signup = () => {
 			return false;
 		} else if (
 			strCheck(passwordEdit, 'pwd') === false &&
-			passwordEdit.length !== 0 &&
-			confirmPasswordEdit.length !== 0
+			passwordEdit?.length !== 0 &&
+			confirmPasswordEdit?.length !== 0
 		) {
 			setErrMessage('비밀번호는 8~16자 영문+숫자+특수문자로 입력해주세요');
 			return false;
@@ -63,9 +65,9 @@ const Signup = () => {
 				password
 			);
 			console.log(user);
-			navigate('/');
-		} catch (err) {
-			console.log(err.message);
+			router.push('/');
+		} catch {
+			console.log('Sign up Error');
 		}
 	};
 
@@ -100,12 +102,26 @@ const Signup = () => {
 					{errMessage ? <ErrorMSG>{errMessage}</ErrorMSG> : ''}
 					<button onClick={register}>Sign up</button>
 					<FlexBetween>
-						<div>
-							<Icon src={kakaoLogo} alt='kakaoLogin' />
-						</div>
-						<div>
-							<Icon src={googleLogo} alt='googleLogin' />
-						</div>
+						<Link href={'/'}>
+							<Image
+								src='/kakao-logo.png'
+								alt='Kakao Logo'
+								width={40}
+								height={40}
+							/>
+						</Link>
+						{/* <a href={`${baseURL}/login/oauth2/authorize/kakao?redirect_uri=${clientURL}/oauth2/redirect`}> */}
+						{/* </a> */}
+						<Link href={'/'}>
+							<Image
+								src='/google-logo.png'
+								alt='Google Logo'
+								width={40}
+								height={40}
+							/>
+						</Link>
+						{/* <a href={`${baseURL}/login/oauth2/authorize/google?redirect_uri=${clientURL}/oauth2/redirect`}> */}
+						{/* </a> */}
 					</FlexBetween>
 				</Form>
 			</Wrapper>
@@ -120,6 +136,7 @@ const Wrapper = styled.div`
 	width: 400px;
 	padding: 0 20px;
 	min-height: 100vh;
+	background-color: #eeeae9;
 `;
 const Form = styled.form`
 	display: flex;
@@ -135,12 +152,6 @@ const Input = styled.input`
 	margin-bottom: 15px;
 	width: 100%;
 	height: 50px;
-`;
-const Icon = styled.img`
-	width: 50px;
-	height: auto;
-	object-fit: cover;
-	cursor: pointer;
 `;
 const FlexBetween = styled.div`
 	display: flex;

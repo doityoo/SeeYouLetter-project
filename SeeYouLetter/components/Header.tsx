@@ -47,7 +47,7 @@ const Header = () => {
 
 	const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
-		router.push('/letterForm');
+		router.replace(isLogin ? '/letterForm' : '/');
 	};
 
 	return (
@@ -62,7 +62,7 @@ const Header = () => {
 						layout='intrinsic'
 					/>
 				</Link>
-				{isLogin ? (
+				{isLogin && (
 					<BarIcon
 						src='/hamburgerBar.png'
 						alt='bar icon'
@@ -71,7 +71,7 @@ const Header = () => {
 						onClick={toggleModal}
 						ref={outSection}
 					/>
-				) : null}
+				)}
 			</Wrapper>
 			{isOpen && (
 				<LogoutModalContainer>

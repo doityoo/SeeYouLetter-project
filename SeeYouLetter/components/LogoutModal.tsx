@@ -10,7 +10,7 @@ const LogoutModal = () => {
 	};
 	const logout = () => {
 		localStorage.removeItem('key');
-		router.push('/');
+		router.replace('/');
 	};
 
 	return (
@@ -18,7 +18,7 @@ const LogoutModal = () => {
 			<Button
 				onClick={async () => {
 					await logout();
-					await setTimeout(() => purge(), 200);
+					await purge();
 				}}
 			>
 				로그아웃

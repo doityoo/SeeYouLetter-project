@@ -1,11 +1,4 @@
-import {
-	Fragment,
-	useRef,
-	useState,
-	useEffect,
-	HTMLAttributes,
-	ImgHTMLAttributes,
-} from 'react';
+import { Fragment, useRef, useState, useEffect, HTMLAttributes } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -50,6 +43,8 @@ const Login = () => {
 	useEffect(() => {
 		if (isLogin) {
 			router.push('/letterForm');
+		} else {
+			router.push('/');
 		}
 	}, [isLogin]);
 
@@ -79,7 +74,7 @@ const Login = () => {
 		return true;
 	};
 
-	const login = async (e: React.FormEvent<HTMLFormElement>) => {
+	const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		const email = emailRef.current?.value;
 		const password = pwRef.current?.value;
 		e.preventDefault();
@@ -123,7 +118,7 @@ const Login = () => {
 			<GlobalStyle />
 			<Wrapper>
 				<Header />
-				<Form onSubmit={login}>
+				<Form onSubmit={loginHandler}>
 					{/* 로그인 ID / PW 입력창 */}
 					<Input
 						ref={emailRef}
