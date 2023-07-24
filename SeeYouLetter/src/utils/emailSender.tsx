@@ -29,7 +29,6 @@ const emailSender = async (
 		// 	console.log('successfully sent email(즉시)');
 		// } else {
 		console.log('예약된 날짜에 이메일이 전송 중..');
-		console.log('예약날짜(서버)): ', reservationDate);
 		// 예약된 날짜에 이메일을 보내도록 스케줄링
 		const scheduledJob = schedule.scheduleJob(reservationDate, async () => {
 			try {
