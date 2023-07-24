@@ -51,8 +51,12 @@ const LetterForm = () => {
 			setReservationDate(oneYear);
 		} else if (period === 3) {
 			// 기간 테스트 코드
-			let now = new Date(curDate.getTime() + 3 * 60000);
+			let now = new Date(curDate.getTime() + 1 * 60000);
 			setReservationDate(now);
+		} else if (period === 4) {
+			// 기간 테스트 코드
+			let oneDay = new Date(curDate.getTime() + 24 * 60 * 60000);
+			setReservationDate(oneDay);
 		}
 		console.log('예약날짜 테스트(1)', reservationDate);
 	}, [period]);
@@ -64,19 +68,23 @@ const LetterForm = () => {
 	let periodData: PeriodData[] = [
 		{
 			id: 0,
-			period: '3개월 뒤',
+			period: '3개월 후',
 		},
 		{
 			id: 1,
-			period: '6개월 뒤',
+			period: '6개월 후',
 		},
 		{
 			id: 2,
-			period: '1년 뒤',
+			period: '1년 후',
 		},
 		{
 			id: 3,
-			period: '3분 후(테스트용)',
+			period: '1분 후(테스트용)',
+		},
+		{
+			id: 4,
+			period: '하루 후(테스트용)',
 		},
 	];
 
@@ -102,10 +110,10 @@ const LetterForm = () => {
 		// 여기에서 예약된 날짜를 설정하고 서버로 전송
 		const emailData = {
 			toEmail: email,
-			text: textBody,
+			text: textBody.replace(/\n/g, '<br />'),
 			name: name,
 			reservationDate: reservationDate,
-			subject: `${currentDate}에 ${name}이 보낸 편지입니다 :)`,
+			subject: `${currentDate}에 ${name}이(가) 보낸 편지입니다 :)`,
 		};
 
 		console.log('예약날짜(타입)(2): ', reservationDate);
@@ -134,7 +142,7 @@ const LetterForm = () => {
 			console.error('Error scheduling email:', error);
 		} finally {
 			console.log(reservationDate);
-			// await window.location.reload();
+			await window.location.reload();
 		}
 	};
 
