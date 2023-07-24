@@ -35,8 +35,26 @@ const LetterForm = () => {
 	const [textBody, setTextBody] = useState<string>(''); // textBody 상태 추가
 
 	useEffect(() => {
+		const curDate = new Date();
+		if (period === 0) {
+			let threeMonth = new Date(curDate);
+			threeMonth.setMonth(curDate.getMonth() + 3);
+			setReservationDate(threeMonth);
+		} else if (period === 1) {
+			let sixMonth = new Date(curDate);
+			sixMonth.setMonth(curDate.getMonth() + 6);
+			setReservationDate(sixMonth);
+		} else if (period === 2) {
+			let oneYear = new Date(curDate);
+			oneYear.setMonth(curDate.getMonth() + 12);
+			setReservationDate(oneYear);
+		} else if (period === 3) {
+			// 기간 테스트 코드
+			let now = new Date(curDate.getTime() + 5 * 60000);
+			setReservationDate(now);
+		}
 		console.log('예약날짜 테스트(1)', reservationDate);
-	}, [reservationDate]);
+	}, [period]);
 
 	// textEditor 오늘 잘짜 표시 변수
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
@@ -80,35 +98,18 @@ const LetterForm = () => {
 			return false;
 		}
 
-		const curDate = new Date();
-		if (period === 0) {
-			let threeMonth = new Date(curDate);
-			threeMonth.setMonth(curDate.getMonth() + 3);
-			await setReservationDate(threeMonth);
-		} else if (period === 1) {
-			let sixMonth = new Date(curDate);
-			sixMonth.setMonth(curDate.getMonth() + 6);
-			await setReservationDate(sixMonth);
-		} else if (period === 2) {
-			let oneYear = new Date(curDate);
-			oneYear.setMonth(curDate.getMonth() + 12);
-			await setReservationDate(oneYear);
-		} else if (period === 3) {
-			// 기간 테스트 코드
-			let now = await new Date(curDate.getTime() + 5 * 60000);
-			await setReservationDate(now.toISOString());
-		}
+		// 여기에서 예약된 날짜를 설정하고 서버로 전송
+		const emailData = {
+			toEmail: email,
+			text: textBody,
+			name: name,
+			reservationDate: reservationDate,
+		};
+
+		console.log('예약날짜(타입)(2): ', reservationDate);
 
 		try {
-			// 여기에서 예약된 날짜를 설정하고 서버로 전송
-			const emailData = await {
-				toEmail: email,
-				text: textBody,
-				name: name,
-				reservationDate: reservationDate,
-			};
-			console.log('예약날짜(타입)(2): ', reservationDate);
-			const token = await localStorage.getItem('key');
+			const token = localStorage.getItem('key');
 			if (!token) {
 				console.error('User is not authenticated.');
 				return;
