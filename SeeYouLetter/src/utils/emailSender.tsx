@@ -1,5 +1,14 @@
+import fs from 'fs';
+import path from 'path';
+import handlebars from 'handlebars';
 import nodemailer from 'nodemailer';
 import schedule from 'node-schedule';
+
+import 'dayjs/locale/ko'; // 한국어 가져오기
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.locale('ko');
+dayjs.extend(relativeTime);
 
 const { EMAIL_SERVICE, EMAIL_USER, EMAIL_PASS } = process.env;
 
@@ -7,9 +16,17 @@ const emailSender = async (
 	toEmail: string,
 	name: string,
 	text: string,
-	reservationDate: Date
+	reservationDate: Date,
+	subject: string
 ) => {
 	try {
+		const templatePath = path.join(
+			process.cwd(),
+			'pages/api/email-template.hbs'
+		);
+		const templateSource = fs.readFileSync(templatePath, 'utf8');
+		const emailTemplate = handlebars.compile(templateSource);
+
 		// 예약된 날짜가 도달하면 이메일을 보내도록 설정
 		const transporter = nodemailer.createTransport({
 			service: EMAIL_SERVICE,
@@ -18,14 +35,27 @@ const emailSender = async (
 				pass: EMAIL_PASS,
 			},
 		});
-		const mailOptions = {
-			from: EMAIL_USER, // 보내는 이메일 주소
+
+		const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
+
+		const templateDate = {
 			to: toEmail, // 수신인 이메일 주소
+			name: name, // 받는이 이름
+			subject: subject, // 제목
 			text: text, // 이메일 내용
+			currentDate: currentDate,
+		};
+
+		const emailContent = emailTemplate(templateDate);
+
+		const mailOptions = {
+			to: toEmail, // 수신인 이메일 주소
+			subject: subject, // 이메일 제목
+			html: emailContent, // 렌더링된 템플릿 내용
 		};
 
 		console.log('예약된 날짜에 이메일이 전송 중..');
-    console.log(reservationDate);
+		console.log(reservationDate);
 		// 예약된 날짜에 이메일을 보내도록 스케줄링
 		const scheduledJob = schedule.scheduleJob(reservationDate, async () => {
 			try {

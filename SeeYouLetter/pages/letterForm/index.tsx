@@ -29,10 +29,11 @@ const LetterForm = () => {
 	const [name, setName] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
 	const [errMSG, setErrMSG] = useState<string>('');
+	// const [subject, setSubject] = useState<string>('');
+	const [textBody, setTextBody] = useState<string>(''); // textBody 상태 추가
 	const [isChecked, setIsChecked] = useState<boolean>(false);
 	const [period, setPeriod] = useState<number | undefined>(0);
 	const [reservationDate, setReservationDate] = useState<Date | string>('');
-	const [textBody, setTextBody] = useState<string>(''); // textBody 상태 추가
 
 	useEffect(() => {
 		const curDate = new Date();
@@ -50,7 +51,7 @@ const LetterForm = () => {
 			setReservationDate(oneYear);
 		} else if (period === 3) {
 			// 기간 테스트 코드
-			let now = new Date(curDate.getTime() + 5 * 60000);
+			let now = new Date(curDate.getTime() + 3 * 60000);
 			setReservationDate(now);
 		}
 		console.log('예약날짜 테스트(1)', reservationDate);
@@ -75,7 +76,7 @@ const LetterForm = () => {
 		},
 		{
 			id: 3,
-			period: '5분 후(테스트용)',
+			period: '3분 후(테스트용)',
 		},
 	];
 
@@ -104,6 +105,7 @@ const LetterForm = () => {
 			text: textBody,
 			name: name,
 			reservationDate: reservationDate,
+			subject: `${currentDate}에 ${name}이 보낸 편지입니다 :)`,
 		};
 
 		console.log('예약날짜(타입)(2): ', reservationDate);
@@ -155,6 +157,12 @@ const LetterForm = () => {
 				<p>나에게, 또는 누군가에게</p>
 				<p>편지를 남겨보세요</p>
 			</StyledText1>
+			{/* <Input
+				type='text'
+				placeholder='편지의 제목을 입력하세요'
+				value={subject}
+				onChange={(e) => setSubject(e.target.value)}
+			/> */}
 			<TextEditor
 				textBody={textBody}
 				setTextBody={(text) => setTextBody(text)}

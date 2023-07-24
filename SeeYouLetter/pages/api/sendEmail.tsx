@@ -3,13 +3,13 @@ import emailSender from '../../src/utils/emailSender';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
-		let { toEmail, text, name, reservationDate } = req.body;
+		let { toEmail, text, name, reservationDate, subject } = req.body;
 
 		try {
 			// 여기에서 예약된 날짜 로직을 추가
 			// 예약된 날짜가 도달하면 이메일을 보내도록 설정
 			setTimeout(async () => {
-				await emailSender(toEmail, name, text, reservationDate);
+				await emailSender(toEmail, name, text, reservationDate, subject);
 			}, 1000);
 
 			res
