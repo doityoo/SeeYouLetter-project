@@ -1,15 +1,28 @@
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import styled from 'styled-components';
 
 import LogoutModal from './LogoutModal';
 import Link from 'next/link';
 import Image from 'next/image';
 
+interface sliceAuthTypes {
+	auth: {
+		isAuthenticated: false;
+		isUserEmail: '';
+	};
+}
+
 const Header = () => {
 	const router = useRouter();
 	const outSection = useRef<HTMLImageElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
+
+	const isLogin = useSelector(
+		(state: sliceAuthTypes) => state.auth.isAuthenticated
+	);
 
 	const toggleModal = () => {
 		setIsOpen(!isOpen);
@@ -49,14 +62,16 @@ const Header = () => {
 						layout='intrinsic'
 					/>
 				</Link>
-				<BarIcon
-					src='/hamburgerBar.png'
-					alt='bar icon'
-					height={20}
-					width={20}
-					onClick={toggleModal}
-					ref={outSection}
-				/>
+				{isLogin ? (
+					<BarIcon
+						src='/hamburgerBar.png'
+						alt='bar icon'
+						height={20}
+						width={20}
+						onClick={toggleModal}
+						ref={outSection}
+					/>
+				) : null}
 			</Wrapper>
 			{isOpen && (
 				<LogoutModalContainer>

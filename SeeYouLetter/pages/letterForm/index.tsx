@@ -31,10 +31,12 @@ const LetterForm = () => {
 	const [errMSG, setErrMSG] = useState<string>('');
 	const [isChecked, setIsChecked] = useState<boolean>(false);
 	const [period, setPeriod] = useState<number | undefined>(0);
-	const [reservationDate, setReservationDate] = useState<Date | undefined>(
-		undefined
-	);
+	const [reservationDate, setReservationDate] = useState<Date | string>('');
 	const [textBody, setTextBody] = useState<string>(''); // textBody 상태 추가
+
+	useEffect(() => {
+		console.log('예약날짜 테스트(1)', reservationDate);
+	}, [reservationDate]);
 
 	// textEditor 오늘 잘짜 표시 변수
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
@@ -55,7 +57,7 @@ const LetterForm = () => {
 		},
 		{
 			id: 3,
-			period: '5분 후',
+			period: '5분 후(테스트용)',
 		},
 	];
 
@@ -72,6 +74,12 @@ const LetterForm = () => {
 	}
 
 	const submitHandler = async () => {
+		// submit 전 user가 수신자로 작성하 email형식 유효성 검사
+		if (strCheck(email, 'email') === false) {
+			setErrMSG('이메일 형식이 올바르지 않습니다.');
+			return false;
+		}
+
 		const curDate = new Date();
 		if (period === 0) {
 			let threeMonth = new Date(curDate);
@@ -87,14 +95,8 @@ const LetterForm = () => {
 			await setReservationDate(oneYear);
 		} else if (period === 3) {
 			// 기간 테스트 코드
-			let now: any = await new Date(curDate.getTime() + 5 * 60000);
-			// reservationTest.current = now;
-			await setReservationDate(now);
-		}
-		// submit 전 user가 수신자로 작성하 email형식 유효성 검사
-		if (strCheck(email, 'email') === false) {
-			setErrMSG('이메일 형식이 올바르지 않습니다.');
-			return false;
+			let now = await new Date(curDate.getTime() + 5 * 60000);
+			await setReservationDate(now.toISOString());
 		}
 
 		try {
@@ -105,8 +107,8 @@ const LetterForm = () => {
 				name: name,
 				reservationDate: reservationDate,
 			};
-			console.log('예약날짜(타입): ', reservationDate);
-			const token = localStorage.getItem('key');
+			console.log('예약날짜(타입)(2): ', reservationDate);
+			const token = await localStorage.getItem('key');
 			if (!token) {
 				console.error('User is not authenticated.');
 				return;
@@ -127,9 +129,10 @@ const LetterForm = () => {
 			}
 		} catch (error) {
 			console.error('Error scheduling email:', error);
+		} finally {
+			console.log(reservationDate);
+			// await window.location.reload();
 		}
-
-		// window.location.reload();
 	};
 
 	const handleChecked = (e: any) => {

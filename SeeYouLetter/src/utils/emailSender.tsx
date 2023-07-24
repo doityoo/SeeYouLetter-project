@@ -11,7 +11,6 @@ const emailSender = async (
 ) => {
 	try {
 		// 예약된 날짜가 도달하면 이메일을 보내도록 설정
-		const currentDate = new Date();
 		const transporter = nodemailer.createTransport({
 			service: EMAIL_SERVICE,
 			auth: {
@@ -24,11 +23,9 @@ const emailSender = async (
 			to: toEmail, // 수신인 이메일 주소
 			text: text, // 이메일 내용
 		};
-		// if (currentDate >= new Date(reservationDate)) {
-		// 	await transporter.sendMail(mailOptions);
-		// 	console.log('successfully sent email(즉시)');
-		// } else {
+
 		console.log('예약된 날짜에 이메일이 전송 중..');
+    console.log(reservationDate);
 		// 예약된 날짜에 이메일을 보내도록 스케줄링
 		const scheduledJob = schedule.scheduleJob(reservationDate, async () => {
 			try {
