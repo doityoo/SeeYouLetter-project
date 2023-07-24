@@ -9,14 +9,8 @@ const emailSender = async (
 	text: string,
 	reservationDate: Date
 ) => {
-	const reservationDated = reservationDate.toISOString();
-
 	try {
-		// 여기에서 토큰의 유효성을 검사합니다.
-		// Firebase Admin SDK를 사용하여 토큰을 검증할 수 있습니다.
-		// 검증 로직을 추가해주세요. (Firebase Admin SDK 사용)
-
-		// 예약된 날짜가 도달하면 이메일을 보내도록 설정합니다.
+		// 예약된 날짜가 도달하면 이메일을 보내도록 설정
 		const currentDate = new Date();
 		const transporter = nodemailer.createTransport({
 			service: EMAIL_SERVICE,
@@ -30,23 +24,28 @@ const emailSender = async (
 			to: toEmail, // 수신인 이메일 주소
 			text: text, // 이메일 내용
 		};
-		if (currentDate >= new Date(reservationDated)) {
-			await transporter.sendMail(mailOptions);
-			console.log('이메일이 성공적으로 보내졌습니다!');
-		} else {
-			console.log('예약된 날짜에 이메일이 전송될 것입니다.');
-			// 예약된 날짜에 이메일을 보내도록 스케줄링합니다.
-			schedule.scheduleJob(reservationDated, async () => {
-				try {
-					await transporter.sendMail(mailOptions);
-					console.log('이메일이 성공적으로 보내졌습니다!');
-				} catch (error) {
-					console.error('이메일 처리 중 오류가 발생했습니다:', error);
-				}
-			});
-		}
+		// if (currentDate >= new Date(reservationDate)) {
+		// 	await transporter.sendMail(mailOptions);
+		// 	console.log('successfully sent email(즉시)');
+		// } else {
+		console.log('예약된 날짜에 이메일이 전송 중..');
+		console.log('예약날짜(서버)): ', reservationDate);
+		// 예약된 날짜에 이메일을 보내도록 스케줄링
+		const scheduledJob = schedule.scheduleJob(reservationDate, async () => {
+			try {
+				await transporter.sendMail(mailOptions);
+				console.log('successfully sent email(예약)');
+			} catch (error) {
+				console.error('이메일 처리 중 오류가 발생했습니다(1):', error);
+			} finally {
+				// 작업이 실행된 이후에 해당 작업을 삭제합니다.
+				scheduledJob.cancel();
+				console.log('scheduled end!');
+			}
+		});
+		// }
 	} catch (error) {
-		console.error('이메일 처리 중 오류가 발생했습니다:', error);
+		console.error('이메일 처리 중 오류가 발생했습니다(2):', error);
 	}
 };
 

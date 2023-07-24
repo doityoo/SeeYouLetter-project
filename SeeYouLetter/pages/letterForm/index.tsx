@@ -23,9 +23,6 @@ interface PeriodData {
 }
 
 const LetterForm = () => {
-	// const textBody = useSelector(
-	// 	(state: sliceTextTypes) => state.textBody.context
-	// );
 	const userEmail = useSelector(
 		(state: sliceEmailTypes) => state.auth.isUserEmail
 	);
@@ -34,14 +31,15 @@ const LetterForm = () => {
 	const [errMSG, setErrMSG] = useState<string>('');
 	const [isChecked, setIsChecked] = useState<boolean>(false);
 	const [period, setPeriod] = useState<number | undefined>(0);
-	const [reservationDate, setReservationDate] = useState<number | undefined>(
+	const [reservationDate, setReservationDate] = useState<Date | undefined>(
 		undefined
 	);
 	const [textBody, setTextBody] = useState<string>(''); // textBody 상태 추가
 
+	// textEditor 오늘 잘짜 표시 변수
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 
-	// console.log(period)
+	// 예약기간 DB
 	let periodData: PeriodData[] = [
 		{
 			id: 0,
@@ -57,10 +55,11 @@ const LetterForm = () => {
 		},
 		{
 			id: 3,
-			period: '지금',
+			period: '5분 후',
 		},
 	];
 
+	// email 유효성 검사
 	function strCheck(str: string, type: string) {
 		const REGEX = {
 			EMAIL: /\S+@\S+\.\S+/,
@@ -76,16 +75,21 @@ const LetterForm = () => {
 		const curDate = new Date();
 		if (period === 0) {
 			let threeMonth = new Date(curDate);
-			setReservationDate(threeMonth.setMonth(curDate.getMonth() + 3));
+			threeMonth.setMonth(curDate.getMonth() + 3);
+			await setReservationDate(threeMonth);
 		} else if (period === 1) {
 			let sixMonth = new Date(curDate);
-			setReservationDate(sixMonth.setMonth(curDate.getMonth() + 6));
+			sixMonth.setMonth(curDate.getMonth() + 6);
+			await setReservationDate(sixMonth);
 		} else if (period === 2) {
 			let oneYear = new Date(curDate);
-			setReservationDate(oneYear.setMonth(curDate.getMonth() + 12));
+			oneYear.setMonth(curDate.getMonth() + 12);
+			await setReservationDate(oneYear);
 		} else if (period === 3) {
-			let now: any = new Date(curDate.getTime() + 1 * 60000);
-			setReservationDate(now);
+			// 기간 테스트 코드
+			let now: any = await new Date(curDate.getTime() + 5 * 60000);
+			// reservationTest.current = now;
+			await setReservationDate(now);
 		}
 		// submit 전 user가 수신자로 작성하 email형식 유효성 검사
 		if (strCheck(email, 'email') === false) {
@@ -95,13 +99,13 @@ const LetterForm = () => {
 
 		try {
 			// 여기에서 예약된 날짜를 설정하고 서버로 전송
-			const emailData = {
+			const emailData = await {
 				toEmail: email,
 				text: textBody,
 				name: name,
 				reservationDate: reservationDate,
 			};
-
+			console.log('예약날짜(타입): ', reservationDate);
 			const token = localStorage.getItem('key');
 			if (!token) {
 				console.error('User is not authenticated.');
@@ -109,7 +113,7 @@ const LetterForm = () => {
 			}
 
 			// 서버에 토큰과 이메일 데이터를 전송합니다.
-			const response = await axios.post('/api/scheduleEmail', emailData, {
+			const response = await axios.post('/api/sendEmail', emailData, {
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
@@ -125,7 +129,7 @@ const LetterForm = () => {
 			console.error('Error scheduling email:', error);
 		}
 
-		window.location.reload();
+		// window.location.reload();
 	};
 
 	const handleChecked = (e: any) => {

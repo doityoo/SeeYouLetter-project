@@ -4,11 +4,11 @@ import emailSender from '../../src/utils/emailSender';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
 		let { toEmail, text, name, reservationDate } = req.body;
+		console.log('req.body: ' + reservationDate);
 
 		try {
-			// 여기에서 예약된 날짜 로직을 추가해야 합니다.
-			// 예약된 날짜가 도달하면 이메일을 보내도록 설정해주세요.
-			// 예시로 setTimeout을 사용해서 10초 후에 이메일을 보내는 예제를 작성하겠습니다.
+			// 여기에서 예약된 날짜 로직을 추가
+			// 예약된 날짜가 도달하면 이메일을 보내도록 설정
 			setTimeout(async () => {
 				await emailSender(toEmail, name, text, reservationDate);
 			}, 1000);
