@@ -68,35 +68,24 @@ const emailSender = async (
 			html: emailContent, // 렌더링된 템플릿 내용
 		};
 
-		await new Promise((resolve, reject) => {
-			// send mail
-			transporter.sendMail(mailOptions, (err, info) => {
-				if (err) {
-					console.error(err);
-					reject(err);
-				} else {
-					console.log(info);
-					resolve(info);
-				}
-			});
-		});
-
 		console.log('예약된 날짜에 이메일이 전송 중..');
 		console.log('서버 데이터 테스트(emailSender)4 :', mailOptions);
 		// 예약된 날짜에 이메일을 보내도록 스케줄링
-		const scheduledJob = schedule.scheduleJob(reservationDate, async () => {
-			try {
-				await transporter.sendMail(mailOptions);
-				console.log('successfully sent email(예약)');
-			} catch (error) {
-				console.error('이메일 처리 중 오류가 발생했습니다(1):', error);
-			} finally {
-				// 작업이 실행된 이후에 해당 작업을 삭제합니다.
-				scheduledJob.cancel();
-				console.log('scheduled end!');
+		const scheduledJob = await schedule.scheduleJob(
+			reservationDate,
+			async () => {
+				try {
+					await transporter.sendMail(mailOptions);
+					console.log('successfully sent email(예약)');
+				} catch (error) {
+					console.error('이메일 처리 중 오류가 발생했습니다(1):', error);
+				} finally {
+					// 작업이 실행된 이후에 해당 작업을 삭제합니다.
+					await scheduledJob.cancel();
+					console.log('scheduled end!');
+				}
 			}
-		});
-		// }
+		);
 	} catch (error) {
 		console.error('이메일 처리 중 오류가 발생했습니다(2):', error);
 	}
