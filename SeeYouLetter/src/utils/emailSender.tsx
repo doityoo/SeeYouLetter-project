@@ -44,7 +44,7 @@ const emailSender = async (
 			to: toEmail, // 수신인 이메일 주소
 			name: name, // 받는이 이름
 			subject: subject, // 제목
-			text: text, // 이메일 내용
+			html: text, // 이메일 내용
 			currentDate: currentDate,
 		};
 		console.log('서버 데이터 테스트(emailSender)3 :', templateDate);
