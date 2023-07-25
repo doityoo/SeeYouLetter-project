@@ -30,6 +30,8 @@ const emailSender = async (
 		// 예약된 날짜가 도달하면 이메일을 보내도록 설정
 		const transporter = await nodemailer.createTransport({
 			service: EMAIL_SERVICE,
+			port: 587,
+			secure: true,
 			auth: {
 				user: EMAIL_USER,
 				pass: EMAIL_PASS,
