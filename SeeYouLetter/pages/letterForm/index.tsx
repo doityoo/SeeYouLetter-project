@@ -145,6 +145,8 @@ const LetterForm = () => {
 				},
 			});
 
+			console.log('배포 데이터 테스트(letterForm)1 :', emailData);
+
 			if (response.status === 200) {
 				console.log('Email scheduled successfully!');
 			} else {
@@ -154,7 +156,7 @@ const LetterForm = () => {
 			console.error('Error scheduling email:', error);
 		} finally {
 			console.log(reservationDate);
-			await window.location.reload();
+			// await window.location.reload();
 		}
 	};
 

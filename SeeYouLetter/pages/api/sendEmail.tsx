@@ -4,6 +4,7 @@ import emailSender from '../../src/utils/emailSender';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
 		let { toEmail, text, name, reservationDate, subject } = req.body;
+		console.log('서버 데이터 테스트(sendEmail): ', req.body);
 
 		try {
 			// 여기에서 예약된 날짜 로직을 추가

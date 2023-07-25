@@ -45,6 +45,7 @@ const emailSender = async (
 			text: text, // 이메일 내용
 			currentDate: currentDate,
 		};
+		console.log('서버 데이터 테스트(emailSender)3 :', templateDate);
 
 		const emailContent = emailTemplate(templateDate);
 
@@ -55,7 +56,7 @@ const emailSender = async (
 		};
 
 		console.log('예약된 날짜에 이메일이 전송 중..');
-		console.log(reservationDate);
+		console.log('서버 데이터 테스트(emailSender)4 :', mailOptions);
 		// 예약된 날짜에 이메일을 보내도록 스케줄링
 		const scheduledJob = schedule.scheduleJob(reservationDate, async () => {
 			try {
