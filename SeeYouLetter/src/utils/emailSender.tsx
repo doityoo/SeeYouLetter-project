@@ -31,7 +31,6 @@ const emailSender = async (
 		const transporter = await nodemailer.createTransport({
 			service: EMAIL_SERVICE,
 			port: 587,
-			secure: true,
 			auth: {
 				user: EMAIL_USER,
 				pass: EMAIL_PASS,
