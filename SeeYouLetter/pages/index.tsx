@@ -139,7 +139,7 @@ const Login = () => {
 					/>
 					<StyledText2>{error ? error : ''}</StyledText2>
 					<button type='submit'>Log in</button>
-					<FlexBetween width>
+					<FlexBetween width='1'>
 						<StyledLink href='/signup'>회원가입</StyledLink>
 					</FlexBetween>
 					{/* 간편로그인 링크&로고 */}
@@ -178,7 +178,7 @@ const Login = () => {
 export default Login;
 
 type FlexBetweenProps = HTMLAttributes<HTMLDivElement> & {
-	width?: boolean;
+	width?: string;
 };
 
 const Wrapper = styled.div`

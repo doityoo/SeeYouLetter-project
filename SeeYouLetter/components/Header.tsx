@@ -60,6 +60,7 @@ const Header = () => {
 						height={50}
 						width={160}
 						layout='intrinsic'
+						// unoptimized
 					/>
 				</Link>
 				{isLogin && (

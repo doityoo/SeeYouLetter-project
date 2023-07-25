@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
 				<GlobalStyle />
-				<Component {...pageProps} />{' '}
+				<Component {...pageProps} />
 			</PersistGate>
 		</Provider>
 	);
