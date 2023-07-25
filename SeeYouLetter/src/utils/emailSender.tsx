@@ -36,6 +36,19 @@ const emailSender = async (
 			},
 		});
 
+		await new Promise((resolve, reject) => {
+			// verify connection configuration
+			transporter.verify(function (error, success) {
+				if (error) {
+					console.log(error);
+					reject(error);
+				} else {
+					console.log('Server is ready to take our messages');
+					resolve(success);
+				}
+			});
+		});
+
 		const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 
 		const templateDate = {
@@ -54,6 +67,19 @@ const emailSender = async (
 			subject: subject, // 이메일 제목
 			html: emailContent, // 렌더링된 템플릿 내용
 		};
+
+		await new Promise((resolve, reject) => {
+			// send mail
+			transporter.sendMail(mailOptions, (err, info) => {
+				if (err) {
+					console.error(err);
+					reject(err);
+				} else {
+					console.log(info);
+					resolve(info);
+				}
+			});
+		});
 
 		console.log('예약된 날짜에 이메일이 전송 중..');
 		console.log('서버 데이터 테스트(emailSender)4 :', mailOptions);
