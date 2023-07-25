@@ -28,25 +28,12 @@ const emailSender = async (
 		const emailTemplate = handlebars.compile(templateSource);
 
 		// 예약된 날짜가 도달하면 이메일을 보내도록 설정
-		const transporter = nodemailer.createTransport({
+		const transporter = await nodemailer.createTransport({
 			service: EMAIL_SERVICE,
 			auth: {
 				user: EMAIL_USER,
 				pass: EMAIL_PASS,
 			},
-		});
-
-		await new Promise((resolve, reject) => {
-			// verify connection configuration
-			transporter.verify(function (error, success) {
-				if (error) {
-					console.log(error);
-					reject(error);
-				} else {
-					console.log('Server is ready to take our messages');
-					resolve(success);
-				}
-			});
 		});
 
 		const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
@@ -60,7 +47,7 @@ const emailSender = async (
 		};
 		console.log('서버 데이터 테스트(emailSender)3 :', templateDate);
 
-		const emailContent = emailTemplate(templateDate);
+		const emailContent = await emailTemplate(templateDate);
 
 		const mailOptions = {
 			to: toEmail, // 수신인 이메일 주소
