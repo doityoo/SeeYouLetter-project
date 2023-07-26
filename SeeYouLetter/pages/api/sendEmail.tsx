@@ -12,7 +12,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			setTimeout(async () => {
 				await emailSender(toEmail, name, text, reservationDate, subject);
 			}, 1000);
-			console.log('res: ', res);
 			res
 				.status(200)
 				.json({ message: 'Email will be sent on the reserved date.' });

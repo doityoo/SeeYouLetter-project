@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
+import { initializeApp, FirebaseOptions } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
@@ -13,7 +13,8 @@ export const firebaseConfig = {
 	measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const firebaseConfigString = JSON.stringify(firebaseConfig);
+const app = initializeApp(JSON.parse(firebaseConfigString) as FirebaseOptions);
 export default app;
 // 이메일 로그인
 export const authService = getAuth(app);
