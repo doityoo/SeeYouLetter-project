@@ -28,9 +28,9 @@ const { EMAIL_SERVICE, EMAIL_USER, EMAIL_PASS } = process.env;
 
 // -------------mail타입
 interface mailOptionsTypes {
-  to: string; // 수신인 이메일 주소
-  subject: string; // 이메일 제목
-  html: string; // 렌더링된 템플릿 내용
+  to: string;
+  subject: string;
+  html: string;
 }
 
 // -------------emailSender 함수
