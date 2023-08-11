@@ -1,5 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-seeyouletter-735f3-firebase-adminsdk-5wshl-2235575ff4.json
+seeyouletter-735f3-firebase-adminsdk.json
 # dependencies
 /node_modules
 /.pnp

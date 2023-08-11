@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import GlobalStyle from '../../components/UI/GlobalStyle';
 import TextEditor from '../../components/TextEditor';
 import { useRouter } from 'next/router'; // Next.js의 useRouter를 추가
+import Modal from '../../components/Modal';
 
 // 날짜 출력 라이브러리(Dayjs)
 import 'dayjs/locale/ko'; // 한국어 가져오기
@@ -39,6 +40,8 @@ const LetterForm = () => {
 	const [isChecked, setIsChecked] = useState<boolean>(false);
 	const [period, setPeriod] = useState<number | undefined>(0);
 	const [reservationDate, setReservationDate] = useState<Date | string>('');
+	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
 	const router = useRouter();
 
 	useEffect(() => {
@@ -73,8 +76,13 @@ const LetterForm = () => {
 		}
 	}, [period]);
 
+	const closeModal = () => {
+		setIsModalVisible(false);
+	};
+
 	// textEditor 오늘 잘짜 표시 변수
 	const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
+	const modalReservateDate = dayjs(reservationDate).format('YYYY년 MM월 DD일');
 
 	// 예약기간 DB
 	let periodData: PeriodData[] = [
@@ -149,14 +157,17 @@ const LetterForm = () => {
 
 			if (response.status === 200) {
 				console.log('Email scheduled successfully!');
+				// 메시지 전송 성공 시 모달 나타내기
+				setIsModalVisible(true);
+				setTimeout(() => {
+					closeModal();
+					window.location.reload();
+				}, 3000);
 			} else {
 				console.error('Error scheduling email:', response.statusText);
 			}
 		} catch (error) {
 			console.error('Error scheduling email:', error);
-		} finally {
-			console.log(reservationDate);
-			// await window.location.reload();
 		}
 	};
 
@@ -230,6 +241,11 @@ const LetterForm = () => {
 				))}
 			</ButtonWrap>
 			<SendButton onClick={submitHandler}>보내기</SendButton>
+			<Modal
+				isVisible={isModalVisible}
+				onClose={closeModal}
+				modalReservateDate={modalReservateDate}
+			/>
 		</Wrapper>
 	);
 };
