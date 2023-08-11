@@ -4,15 +4,15 @@ import admin from 'firebase-admin';
 import handlebars from 'handlebars';
 import nodemailer from 'nodemailer';
 import schedule from 'node-schedule';
-import serviceAccount from './../../seeyouletter-735f3-firebase-adminsdk.json';
-import { ServiceAccount } from 'firebase-admin';
+// import serviceAccount from './../../seeyouletter-735f3-firebase-adminsdk.json';
+// import { ServiceAccount } from 'firebase-admin';
 
 // -------------admin init이 필요한가?
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount as ServiceAccount),
-  });
-}
+// if (!admin.apps.length) {
+//   admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount as ServiceAccount),
+//   });
+// }
 
 const db = admin.firestore();
 
@@ -52,19 +52,19 @@ const emailSender = async (
     const currentDate = dayjs(new Date()).format('YYYY년 MM월 DD일');
 
     const mailTemplate = {
-      to: toEmail, // 수신인 이메일 주소
-      name: name, // 받는이 이름
-      subject: subject, // 제목
-      text: text, // 이메일 내용
+      to: toEmail,
+      name: name,
+      subject: subject,
+      text: text,
       currentDate: currentDate,
     };
 
     const emailContent = await emailTemplate(mailTemplate);
 
     const mailOptions: mailOptionsTypes = {
-      to: toEmail, // 수신인 이메일 주소
-      subject: subject, // 이메일 제목
-      html: emailContent, // 렌더링된 템플릿 내용
+      to: toEmail,
+      subject: subject,
+      html: emailContent,
     };
 
     // firebase db에 mailOptions 저장
@@ -82,8 +82,8 @@ const emailSender = async (
         );
       }
     };
-    
-		await saveMailOptionsToFirestore(mailOptions);
+
+    await saveMailOptionsToFirestore(mailOptions);
 
     // 예약된 날짜가 도달하면 이메일을 보내도록 설정
     const transporter = await nodemailer.createTransport({
