@@ -12,7 +12,7 @@ dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
 // Firebase Admin SDK 초기화
-const serviceAccount = require('./../../seeyouletter-735f3-firebase-adminsdk.json');
+const serviceAccount = require('./../seeyouletter-735f3-firebase-adminsdk.json');
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
 });

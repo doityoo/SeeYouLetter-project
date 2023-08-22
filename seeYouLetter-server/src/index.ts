@@ -1,24 +1,21 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, request } from 'express';
 import emailSender from './emailSender';
 
 const app = express();
 
-type Data = {
-	name: string;
-	age: number;
-	url: string;
-};
+app.use(express.json()); // Body 데이터 파싱을 위한 미들웨어 추가
 
-// const sendData: Data = {
-// 	name: 'name',
-// 	age: 3,
-// 	url: 'tistory.com',
+// type Data = {
+// 	name: string;
+// 	age: number;
+// 	url: string;
 // };
 
 app.post('/post', (req: Request, res: Response) => {
 	if (req.method === 'POST') {
 		const { toEmail, text, name, reservationDate, subject } = req.body;
 		console.log('서버 데이터 테스트(sendEmail): ', req.body);
+		res.status(200).json({ request: req.body }); // req body 잘등어오는지 테스트 코드
 
 		try {
 			// 여기에서 예약된 날짜 로직을 추가
@@ -37,6 +34,7 @@ app.post('/post', (req: Request, res: Response) => {
 	} else {
 		res.status(405).json({ message: 'Method not allowed.' });
 	}
+	// res.status(200).json({ message: 'success' });
 });
 
 app.listen(8080);

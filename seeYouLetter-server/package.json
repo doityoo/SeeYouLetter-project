@@ -22,6 +22,8 @@
 		"typescript": "^5.1.6"
 	},
 	"devDependencies": {
+		"@types/node-schedule": "^2.1.0",
+		"@types/nodemailer": "^6.4.9",
 		"nodemon": "^3.0.1",
 		"ts-node": "^10.9.1"
 	}

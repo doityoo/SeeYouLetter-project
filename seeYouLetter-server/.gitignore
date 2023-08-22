@@ -14,6 +14,7 @@ seeyouletter-735f3-firebase-adminsdk.json
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
