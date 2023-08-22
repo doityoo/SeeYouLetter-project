@@ -12,10 +12,20 @@ dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
 // Firebase Admin SDK 초기화
-const serviceAccount = require('./../seeyouletter-735f3-firebase-adminsdk.json');
+// const serviceAccount = require('./../seeyouletter-735f3-firebase-adminsdk.json');
+require('dotenv').config();
+const firebaseAdminSdkFile = process.env.FIREBASE_ADMIN_SDK_FILE;
+
+if (!firebaseAdminSdkFile) {
+	console.error('FIREBASE_ADMIN_SDK_FILE이 정의되지 않았습니다.');
+	process.exit(1);
+}
+
+// Firebase Admin SDK 초기화
 admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
+	credential: admin.credential.cert(firebaseAdminSdkFile),
 });
+
 const db = admin.firestore();
 
 const { EMAIL_SERVICE, EMAIL_USER, EMAIL_PASS } = process.env;
@@ -34,10 +44,7 @@ const emailSender = async (
 	subject: string
 ) => {
 	try {
-		const templatePath = path.join(
-			process.cwd(),
-			'pages/api/email-template.hbs'
-		);
+		const templatePath = path.join(__dirname, 'src', 'email-template.hbs');
 		const templateSource = fs.readFileSync(templatePath, 'utf8');
 		const emailTemplate = handlebars.compile(templateSource);
 
@@ -88,7 +95,7 @@ const emailSender = async (
 		});
 
 		// 예약된 날짜에 이메일을 보내도록 스케줄링
-		const scheduledJob = schedule.scheduleJob(reservationDate, async () => {
+		schedule.scheduleJob(reservationDate, async () => {
 			try {
 				await transporter.sendMail(mailOptions);
 				console.log('예약 편지 보내기 성공');
