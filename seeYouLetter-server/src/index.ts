@@ -11,7 +11,7 @@ app.use(express.json()); // Body 데이터 파싱을 위한 미들웨어 추가
 // 	url: string;
 // };
 
-app.post('/post', (req: Request, res: Response) => {
+app.post('/sendEmail', (req: Request, res: Response) => {
 	if (req.method === 'POST') {
 		const { toEmail, text, name, reservationDate, subject } = req.body;
 		console.log('서버 데이터 테스트(sendEmail): ', req.body);
