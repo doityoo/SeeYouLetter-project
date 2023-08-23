@@ -3,7 +3,7 @@ import Document, { Head, Main, Html, NextScript } from 'next/document';
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang='kor'>
+      <Html lang="kor">
         <Head />
         <body>
           <Main />
@@ -11,7 +11,7 @@ class MyDocument extends Document {
           <div id="notifications"></div>
         </body>
       </Html>
-    )
+    );
   }
 }
 

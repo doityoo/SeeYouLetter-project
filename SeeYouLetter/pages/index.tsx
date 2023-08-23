@@ -1,3 +1,4 @@
+import React from 'react';
 import { Fragment, useRef, useState, useEffect, HTMLAttributes } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -46,16 +47,16 @@ const Login = () => {
     } else {
       router.push('/');
     }
-  }, [isLogin]);
+  }, [isLogin, router]);
 
   // ID,PW 유효성 검사(ref)
   const checkValidation = (
-    em: string | undefined,
-    pw: string | number | undefined,
+    email: string | undefined,
+    password: string | number | undefined,
   ) => {
-    const email = emailRef.current?.value;
-    const password = pwRef.current?.value;
-    let regEmail =
+    // const email = emailRef.current?.value;
+    // const password = pwRef.current?.value;
+    const regEmail =
       /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
     if (typeof email === 'undefined' || email === '') {
       setError('이메일을 입력해주세요');
