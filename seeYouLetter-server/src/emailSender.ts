@@ -15,6 +15,7 @@ dayjs.extend(relativeTime);
 // const serviceAccount = require('./../seeyouletter-735f3-firebase-adminsdk.json');
 require('dotenv').config();
 const firebaseAdminSdkFile = process.env.FIREBASE_ADMIN_SDK_FILE;
+console.log('FIREBASE_ADMIN_SDK_FILE:', process.env.FIREBASE_ADMIN_SDK_FILE);
 
 if (!firebaseAdminSdkFile) {
 	console.error('FIREBASE_ADMIN_SDK_FILE이 정의되지 않았습니다.');
