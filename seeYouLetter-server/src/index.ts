@@ -1,8 +1,10 @@
 import express, { Request, Response } from 'express';
 import emailSender from './emailSender';
+import cors from 'cors';
 
 const app = express();
 
+app.use(cors());
 app.use(express.json()); // Body 데이터 파싱을 위한 미들웨어 추가
 
 // type Data = {
