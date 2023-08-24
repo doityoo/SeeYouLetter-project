@@ -13,6 +13,15 @@ app.use(express.json()); // Body 데이터 파싱을 위한 미들웨어 추가
 // 	url: string;
 // };
 
+app.get('/letterForm', (res: Response) => {
+	try {
+		console.log(res.json('server hello'));
+		res.status(200).json('get response');
+	} catch (err) {
+		res.status(500).json('get response error');
+	}
+});
+
 app.post('/sendEmail', (req: Request, res: Response) => {
 	if (req.method === 'POST') {
 		const { toEmail, text, name, reservationDate, subject } = req.body;
