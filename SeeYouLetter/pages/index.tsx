@@ -93,7 +93,6 @@ const Login = () => {
       const userObj: User | null = user.user;
       if (!userObj) {
         // currentUser가 null인 경우에 대한 처리
-        // 예를 들어, 에러 처리를 하거나 로그인 페이지로 이동할 수 있습니다.
         return;
       }
       const token: string = await userObj.getIdToken();
@@ -173,8 +172,6 @@ const Login = () => {
     </Fragment>
   );
 };
-
-// export const getStaticProps = async () => {};
 
 export default Login;
 

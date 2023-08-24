@@ -144,7 +144,7 @@ const LetterForm = () => {
         console.error('User is not authenticated.');
         return;
       }
-      const backendBaseUrl = process.env.REACT_APP_BACKEND_BASE_URL;
+      const backendBaseUrl = process.env.NEXT_API_URL;
 
       // 서버에 토큰과 이메일 데이터를 전송합니다.
       const response = await axios.post(
@@ -196,12 +196,6 @@ const LetterForm = () => {
         <p>나에게, 또는 누군가에게</p>
         <p>편지를 남겨보세요</p>
       </StyledText1>
-      {/* <Input
-				type='text'
-				placeholder='편지의 제목을 입력하세요'
-				value={subject}
-				onChange={(e) => setSubject(e.target.value)}
-			/> */}
       <TextEditor
         textBody={textBody}
         setTextBody={(text) => setTextBody(text)}
