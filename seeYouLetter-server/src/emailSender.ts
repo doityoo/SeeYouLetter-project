@@ -37,7 +37,8 @@ const { EMAIL_SERVICE, EMAIL_USER, EMAIL_PASS } = process.env;
 interface MailOptionsTypes {
 	to: string;
 	subject: string;
-	html: string;
+	// html: string;
+	text: string;
 }
 
 const emailSender = async (
@@ -62,12 +63,13 @@ const emailSender = async (
 			currentDate: currentDate,
 		};
 
-		const emailContent = await emailTemplate(mailTemplate);
+		// const emailContent = await emailTemplate(mailTemplate);
 
 		const mailOptions: MailOptionsTypes = {
 			to: toEmail,
 			subject: subject,
-			html: emailContent,
+			// html: emailContent,
+			text: text,
 		};
 
 		// firebase db에 mailOptions 저장
