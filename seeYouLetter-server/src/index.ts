@@ -14,13 +14,13 @@ app.post('/sendEmail', (req: Request, res: Response) => {
 
 		try {
 			emailSender(toEmail, name, text, reservationDate, subject);
-			res.status(200).json({ message: 'Email sent.' });
+			return res.status(200).json({ message: 'Email sent.' });
 		} catch (error) {
 			console.error('Error processing email:', error);
-			res.status(500).json({ message: 'Error processing email.' });
+			return res.status(500).json({ message: 'Error processing email.' });
 		}
 	} else {
-		res.status(405).json({ message: 'Method not allowed.' });
+		return res.status(405).json({ message: 'Method not allowed.' });
 	}
 });
 
