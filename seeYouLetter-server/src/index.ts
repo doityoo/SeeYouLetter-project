@@ -11,10 +11,16 @@ app.post('/sendEmail', (req: Request, res: Response) => {
 	if (req.method === 'POST') {
 		const { toEmail, text, name, reservationDate, subject } = req.body;
 		console.log('서버 데이터 테스트(sendEmail): ', req.body);
-		emailSender(toEmail, name, text, reservationDate, subject);
-		return res.status(200).json({ message: 'Email sent.' });
+
+		try {
+			res.status(200).json({ message: 'Email sent.' });
+			emailSender(toEmail, name, text, reservationDate, subject);
+		} catch (error) {
+			console.error('Error processing email:', error);
+			res.status(500).json({ message: 'Error processing email.' });
+		}
 	} else {
-		return res.status(405).json({ message: 'Method not allowed.' });
+		res.status(405).json({ message: 'Method not allowed.' });
 	}
 });
 
