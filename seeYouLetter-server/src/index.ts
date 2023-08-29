@@ -13,6 +13,7 @@ app.post('/sendEmail', (req: Request, res: Response) => {
 		console.log('서버 데이터 테스트(sendEmail): ', req.body);
 
 		// 클라이언트에게 즉시 응답을 보냄
+		res.setHeader('Content-Type', 'application/json');
 		res.status(200).json({ message: 'Email will be sent.' });
 
 		// 이메일 작업을 스케줄링
