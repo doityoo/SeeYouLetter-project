@@ -15,7 +15,9 @@ app.post('/sendEmail', (req: Request, res: Response) => {
 		// 클라이언트에게 즉시 응답을 보냄
 		res.status(200).json({ message: 'Email will be sent.' });
 		// 이메일 작업을 스케줄링
-		res.header('Content-Type', 'application/json');
+		res.set({
+			'Content-Type': 'application/json',
+		});
 		emailSender(toEmail, name, text, reservationDate, subject);
 		return; // 여기서 함수 실행 종료
 	} else {
