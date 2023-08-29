@@ -12,13 +12,13 @@ app.post('/sendEmail', (req: Request, res: Response) => {
 		const { toEmail, text, name, reservationDate, subject } = req.body;
 		console.log('서버 데이터 테스트(sendEmail): ', req.body);
 
-		try {
-			res.status(200).json({ message: 'Email sent.' });
-			emailSender(toEmail, name, text, reservationDate, subject);
-		} catch (error) {
-			console.error('Error processing email:', error);
-			res.status(500).json({ message: 'Error processing email.' });
-		}
+		// 클라이언트에게 즉시 응답을 보냄
+		res.status(200).json({ message: 'Email will be sent.' });
+
+		// 이메일 작업을 스케줄링
+		emailSender(toEmail, name, text, reservationDate, subject);
+
+		return; // 여기서 함수 실행 종료
 	} else {
 		res.status(405).json({ message: 'Method not allowed.' });
 	}
