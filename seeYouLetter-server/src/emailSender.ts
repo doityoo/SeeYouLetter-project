@@ -100,15 +100,15 @@ const emailSender = async (
 
 		// 예약된 날짜에 이메일을 보내도록 스케줄링
 		schedule.scheduleJob(reservationDate, async () => {
-			try {
-				await transporter.sendMail(mailOptions);
-				console.log('예약 편지 보내기 성공');
-			} catch (error) {
-				console.error('이메일 처리 중 오류가 발생했습니다(1):', error);
-			} finally {
-				// 작업이 실행된 이후에 해당 작업을 삭제합니다.
-				console.log('scheduled end!');
-			}
+			// try {
+			await transporter.sendMail(mailOptions);
+			console.log('예약 편지 보내기 성공');
+			// } catch (error) {
+			// 	console.error('이메일 처리 중 오류가 발생했습니다(1):', error);
+			// } finally {
+			// 	// 작업이 실행된 이후에 해당 작업을 삭제합니다.
+			// 	console.log('scheduled end!');
+			// }
 		});
 	} catch (error) {
 		console.error('이메일 처리 중 오류가 발생했습니다(2):', error);
