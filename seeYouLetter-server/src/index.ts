@@ -13,15 +13,12 @@ app.post('/sendEmail', (req: Request, res: Response) => {
 		console.log('서버 데이터 테스트(sendEmail): ', req.body);
 
 		// 클라이언트에게 즉시 응답을 보냄
-		// res.setHeader('Content-Type', 'application/json');
-		// res.status(200).json({ message: 'Email will be sent.' });
-
+		res.status(200).json({ message: 'Email will be sent.' });
 		// 이메일 작업을 스케줄링
 		emailSender(toEmail, name, text, reservationDate, subject);
-
 		return; // 여기서 함수 실행 종료
 	} else {
-		res.status(405).json({ message: 'Method not allowed.' });
+		return res.status(405).json({ message: 'Method not allowed.' });
 	}
 });
 
