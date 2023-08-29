@@ -13,13 +13,9 @@ app.post('/sendEmail', (req: Request, res: Response) => {
 		console.log('서버 데이터 테스트(sendEmail): ', req.body);
 
 		// 클라이언트에게 즉시 응답을 보냄
-		res.status(200).json({ message: 'Email will be sent.' });
-		// 이메일 작업을 스케줄링
-		res.set({
-			'Content-Type': 'application/json',
-		});
 		emailSender(toEmail, name, text, reservationDate, subject);
-		return; // 여기서 함수 실행 종료
+		res.status(200).json({ message: 'Email will be sent.' });
+		return;
 	} else {
 		return res.status(405).json({ message: 'Method not allowed.' });
 	}
